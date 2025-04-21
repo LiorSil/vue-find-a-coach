@@ -1,29 +1,27 @@
 <template>
   <div>
+    <h1>Welcome to Your Vue.js App Jela</h1>
 
+    <p>
+      For a guide and recipes on how to configure / customize this project,
+      check out the
+    </p>
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'CoachCard',
-    props: {
-      coach: {
-        type: Object,
-        required: true
-      }
-    },
-    data() {
-      return {
-        // Define any local state here if needed
-      };
-    },
-    methods: {
-      // Define any methods here if needed
-    }
-  }
+<script lang="ts">
+import { defineComponent } from "vue";
+
+export default defineComponent({
+  components: {
+
+  },
+  data() {
+    return {
+      name: "Jela",
+    };
+  },
+});
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,18 +1,17 @@
 <template>
   <div>
-    <h1>Welcome to Your Vue.js App</h1>
-    <p>
-      For a guide and recipes on how to configure / customize this project,
-      check out the
-    </p>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import AppLayout from "./components/layout/AppLayout.vue";
 
 export default defineComponent({
-  components: {},
+  components: {
+    AppLayout,
+  },
 });
 </script>
 
