@@ -1,28 +1,28 @@
 <template>
   <NavBar />
   <div>
-    <router-view></router-view>
+    <RouterView>
+      <AppLayout></AppLayout>
+    </RouterView>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted } from "vue";
 import NavBar from "./components/layout/NavBar.vue";
-import { initFlowbite } from 'flowbite'
-
-
+import { initFlowbite } from "flowbite";
+import { RouterView } from "vue-router";
+import AppLayout from "./components/layout/AppLayout.vue";
 
 export default defineComponent({
   components: {
     NavBar,
-   
+    AppLayout,
   },
   mounted() {
-    initFlowbite()
+    initFlowbite();
   },
 });
 </script>
-
-
 
 <style scoped></style>
