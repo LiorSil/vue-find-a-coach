@@ -13,7 +13,9 @@ export default defineComponent({
     CoachesFilter,
     CoachesList,
   },
-  data() {},
+  data() {
+    return{}
+  },
 });
 </script>
 
