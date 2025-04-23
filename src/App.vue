@@ -1,26 +1,39 @@
 <template>
-  <NavBar />
   <div>
-    <RouterView>
-      <AppLayout></AppLayout>
-    </RouterView>
+    <NavBar
+      @select-component="handleComponentSelection"
+      :selectedComponent="selectedComponent"
+    />
+    <component :is="selectedComponent" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted } from "vue";
+import { defineComponent } from "vue";
 import NavBar from "./components/layout/NavBar.vue";
-import { initFlowbite } from "flowbite";
 import { RouterView } from "vue-router";
-import AppLayout from "./components/layout/AppLayout.vue";
+import CoachesPage from "./components/coaches/CoachesPage.vue";
+import RequestsPage from "./components/requests/RequestsPage.vue";
+
+type ComponentName = "CoachesPage" | "RequestsPage";
 
 export default defineComponent({
+  name: "App",
   components: {
     NavBar,
-    AppLayout,
+    RouterView,
+    CoachesPage,
+    RequestsPage,
   },
-  mounted() {
-    initFlowbite();
+  data() {
+    return {
+      selectedComponent: "CoachesPage" as ComponentName,
+    };
+  },
+  methods: {
+    handleComponentSelection(componentName: ComponentName) {
+      this.selectedComponent = componentName;
+    },
   },
 });
 </script>
