@@ -1,6 +1,6 @@
 // create vuexa store and import from store modules
 import { createStore } from "vuex";
-import coachesModule from "./modules/coaches";
+import coachesModule from "./modules/requestsModule";
 import requestModule from "./modules/requests";
 
 import type { RootState } from "./types";

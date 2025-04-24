@@ -1,5 +1,3 @@
-// import { RequestsState } from './requests/types';
-
 export interface Coach {
   id: string;
   firstName: string;
@@ -16,7 +14,3 @@ export interface CoachesState {
   isLoading: boolean;
   error: string | null;
 }
-
-type RootState = { coaches: CoachesState };
-
-export type { RootState };
