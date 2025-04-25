@@ -18,7 +18,7 @@ import { mapState, mapGetters, mapActions } from 'vuex';
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesList from "./CoachesList.vue";
 import type { Profession } from "../../store/types";
-
+import {professions as professionsData } from '../../data/Professions.json';
 export default defineComponent({
   name: "CoachesPage",
   components: {
@@ -27,32 +27,17 @@ export default defineComponent({
   },
   data() {
     return {
-      professions: [
-        {
-          id: 1,
-          name: "Frontend",
-          selected: true,
-        },
-        {
-          id: 2,
-          name: "Backend",
-          selected: true,
-        },
-        {
-          id: 3,
-          name: "Full Stack",
-          selected: true,
-        }
-      ] as Profession[],
+      professions: professionsData,
     };
   },
   computed: {
-    ...mapState('coaches', ['isLoading', 'error']),
-    ...mapGetters('coaches', ['filteredCoaches']),
+    ...mapState('Coach', ['isLoading', 'error']),
+    ...mapGetters('Coach', ['filteredCoaches']),
   },
   methods: {
-    ...mapActions('coaches', ['fetchCoaches', 'updateSelectedProfessions']),
+    ...mapActions('Coach', ['fetchCoaches', 'updateSelectedProfessions']),
     updateProfessions(professions: Profession[]) {
+      console.table(professions);
       this.professions = professions;
       const selectedProfessions = professions
         .filter(p => p.selected)
@@ -61,7 +46,9 @@ export default defineComponent({
     }
   },
   created() {
-    this.fetchCoaches();
+    // this.fetchCoaches();
+
+    
   }
 });
 </script>

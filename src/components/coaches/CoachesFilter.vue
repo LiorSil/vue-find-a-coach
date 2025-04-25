@@ -36,7 +36,7 @@
 
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
-import type { Profession } from "./types";
+import type { Profession } from "../../store/types";
 
 export default defineComponent({
   name: "CoachesFilter",
