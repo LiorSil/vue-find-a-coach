@@ -17,7 +17,7 @@ import { defineComponent } from "vue";
 import { mapState, mapGetters, mapActions } from 'vuex';
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesList from "./CoachesList.vue";
-import type { Profession } from "./types";
+import type { Profession } from "../../store/types";
 
 export default defineComponent({
   name: "CoachesPage",

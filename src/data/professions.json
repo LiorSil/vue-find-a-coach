@@ -1,0 +1,19 @@
+{
+  "professions": [
+    {
+      "id": 1,
+      "name": "Frontend",
+      "selected": true
+    },
+    {
+      "id": 2,
+      "name": "Backend",
+      "selected": true
+    },
+    {
+      "id": 3,
+      "name": "Full Stack",
+      "selected": true
+    }
+  ]
+}

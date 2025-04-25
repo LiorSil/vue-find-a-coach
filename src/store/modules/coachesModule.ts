@@ -1,6 +1,5 @@
-import type { Coach, CoachesState } from "../types";
+import type { Coach, CoachesState, Profession } from "../types";
 import type { Commit, Module } from "vuex";
-
 
 const coachesModule: Module<CoachesState, any> = {
   namespaced: true,
@@ -16,7 +15,7 @@ const coachesModule: Module<CoachesState, any> = {
     SET_COACHES(state: CoachesState, coaches: Coach[]) {
       state.coaches = coaches;
     },
-    SET_SELECTED_PROFESSIONS(state: CoachesState, professions: string[]) {
+    SET_SELECTED_PROFESSIONS(state: CoachesState, professions: Profession[]) {
       state.selectedProfessions = professions;
     },
     SET_LOADING(state: CoachesState, isLoading: boolean) {
@@ -47,7 +46,7 @@ const coachesModule: Module<CoachesState, any> = {
 
     updateSelectedProfessions(
       { commit }: { commit: Commit },
-      professions: string[]
+      professions: Profession[]
     ) {
       commit("SET_SELECTED_PROFESSIONS", professions);
     },

@@ -1,5 +1,13 @@
 // import { RequestsState } from './requests/types';
 
+
+export interface Profession {
+  id: number;
+  name: string;
+  selected: boolean;
+}
+
+
 export interface Coach {
   id: string;
   firstName: string;
@@ -7,12 +15,12 @@ export interface Coach {
   description: string;
   hourlyRate: number;
   areas: string[];
-  profession: string;
+  profession: Profession;
 }
 
 export interface CoachesState {
   coaches: Coach[];
-  selectedProfessions: string[];
+  selectedProfessions: Profession[];
   isLoading: boolean;
   error: string | null;
 }

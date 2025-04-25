@@ -1,12 +1,12 @@
-import { Module } from "vuex";
-import { Coach, CoachesState } from "@/types/coach";
+import type { Module } from "vuex";
+import type { Coach, CoachesState, Profession } from "../types";
 
 const coachesModule: Module<CoachesState, any> = {
   namespaced: true,
 
   state: {
     coaches: [],
-    selectedProfessions: [],
+    selectedProfessions: [] as Profession[],
     isLoading: false,
     error: null,
   },
@@ -15,7 +15,7 @@ const coachesModule: Module<CoachesState, any> = {
     SET_COACHES(state, coaches: Coach[]) {
       state.coaches = coaches;
     },
-    SET_SELECTED_PROFESSIONS(state, professions: string[]) {
+    SET_SELECTED_PROFESSIONS(state, professions: Profession[]) {
       state.selectedProfessions = professions;
     },
     SET_LOADING(state, isLoading: boolean) {
