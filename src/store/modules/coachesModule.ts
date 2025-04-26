@@ -1,5 +1,7 @@
 import type { Coach, CoachesState, Profession } from "../types";
 import type { Commit, Module } from "vuex";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
+import app from "../../data/firebase.js";
 
 const coachesModule: Module<CoachesState, any> = {
   namespaced: true,
@@ -32,9 +34,9 @@ const coachesModule: Module<CoachesState, any> = {
       commit("SET_ERROR", null);
 
       try {
-        // TODO: Replace with actual API call
-        const response = await fetch("/api/coaches");
-        const data = await response.json();
+        const db = getFirestore(app);
+        const querySnapshot = await getDocs(collection(db, "coaches"));
+        const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_COACHES", data);
       } catch (error) {
         commit("SET_ERROR", "Failed to fetch coaches");

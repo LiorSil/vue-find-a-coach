@@ -46,7 +46,8 @@ export default defineComponent({
     }
   },
   created() {
-    // this.fetchCoaches();
+    this.fetchCoaches();
+    
 
     
   }
