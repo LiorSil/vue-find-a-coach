@@ -56,7 +56,9 @@ const coachesModule: Module<CoachesState, any> = {
       }
 
       return state.coaches.filter((coach) =>
-        state.selectedProfessions.includes(coach.profession)
+        state.selectedProfessions.some((profession) =>
+          coach.skills.includes(profession.name)
+        )
       );
     },
 

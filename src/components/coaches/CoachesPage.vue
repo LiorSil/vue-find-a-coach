@@ -4,7 +4,7 @@
     <div v-else-if="error" class="error">{{ error }}</div>
     <template v-else>
       <CoachesFilter 
-        :professions="professions" 
+        :professions="professions"  
         @filter-professions="updateProfessions"
       />
       <CoachesList :coaches="filteredCoaches" />
@@ -19,6 +19,7 @@ import CoachesFilter from "./CoachesFilter.vue";
 import CoachesList from "./CoachesList.vue";
 import type { Profession } from "../../store/types";
 import {professions as professionsData } from '../../data/Professions.json';
+
 export default defineComponent({
   name: "CoachesPage",
   components: {
@@ -27,7 +28,7 @@ export default defineComponent({
   },
   data() {
     return {
-      professions: professionsData,
+      professions: professionsData as Profession[],
     };
   },
   computed: {
@@ -46,6 +47,7 @@ export default defineComponent({
     }
   },
   created() {
+  
     this.fetchCoaches();
   },
   mounted() {

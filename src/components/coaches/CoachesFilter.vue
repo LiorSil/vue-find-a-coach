@@ -53,6 +53,7 @@ export default defineComponent({
       this.$emit("filter-professions", this.professions);
     },
   },
+
 });
 </script>
 

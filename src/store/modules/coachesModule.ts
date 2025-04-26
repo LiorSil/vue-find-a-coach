@@ -60,9 +60,10 @@ const coachesModule: Module<CoachesState, any> = {
       if (state.selectedProfessions.length === 0) {
         return state.coaches;
       }
-
       return state.coaches.filter((coach) =>
-        state.selectedProfessions.includes(coach.profession)
+        state.selectedProfessions.some((profession) =>
+          coach.skills.includes(profession.name)
+        )
       );
     },
 
