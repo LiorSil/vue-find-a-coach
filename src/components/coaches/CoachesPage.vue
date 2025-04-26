@@ -3,8 +3,8 @@
     <div v-if="isLoading" class="loading">Loading...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <template v-else>
-      <CoachesFilter 
-        :professions="professions"  
+      <CoachesFilter
+        :professions="professions"
         @filter-professions="updateProfessions"
       />
       <CoachesList :coaches="filteredCoaches" />
@@ -14,11 +14,11 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { mapState, mapGetters, mapActions } from 'vuex';
+import { mapState, mapGetters, mapActions } from "vuex";
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesList from "./CoachesList.vue";
 import type { Profession } from "../../store/types";
-import {professions as professionsData } from '../../data/Professions.json';
+import { professions as professionsData } from "../../data/Professions.json";
 
 export default defineComponent({
   name: "CoachesPage",
@@ -29,31 +29,29 @@ export default defineComponent({
   data() {
     return {
       professions: professionsData as Profession[],
+      
+      
     };
   },
   computed: {
-    ...mapState('Coach', ['isLoading', 'error']),
-    ...mapGetters('Coach', ['filteredCoaches', 'allCoaches']),
+    ...mapState("Coach", ["isLoading", "error"]),
+    ...mapGetters("Coach", ["filteredCoaches", "allCoaches"]),
   },
   methods: {
-    ...mapActions('Coach', ['fetchCoaches', 'updateSelectedProfessions']),
+    ...mapActions("Coach", ["fetchCoaches", "updateSelectedProfessions"]),
     updateProfessions(professions: Profession[]) {
-      console.table(professions);
       this.professions = professions;
       const selectedProfessions = professions
         .filter(p => p.selected)
         .map(p => p.name);
-      this.updateSelectedProfessions(selectedProfessions);
-    }
-  },
-  created() {
-  
-    this.fetchCoaches();
+          this.updateSelectedProfessions(selectedProfessions);
+    },
   },
   mounted() {
-    console.table(this.allCoaches);
-
+    this.fetchCoaches();
   },
+
+ 
 });
 </script>
 

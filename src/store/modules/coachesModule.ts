@@ -1,4 +1,4 @@
-import type { Coach, CoachesState, Profession } from "../types";
+import type { Coach, CoachesState, Profession, Skill } from "../types";
 import type { Commit, Module } from "vuex";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import app from "../../data/firebase.js";
@@ -15,21 +15,31 @@ const coachesModule: Module<CoachesState, any> = {
 
   mutations: {
     SET_COACHES(state: CoachesState, coaches: Coach[]) {
+     
       state.coaches = coaches;
     },
     SET_SELECTED_PROFESSIONS(state: CoachesState, professions: Profession[]) {
+     
       state.selectedProfessions = professions;
     },
     SET_LOADING(state: CoachesState, isLoading: boolean) {
+     
       state.isLoading = isLoading;
     },
     SET_ERROR(state: CoachesState, error: string | null) {
+      console.log("Error state changed:", {
+        previous: state.error,
+        new: error,
+        timestamp: new Date().toISOString(),
+      });
       state.error = error;
     },
   },
 
   actions: {
     async fetchCoaches({ commit }: { commit: Commit }) {
+      console.log("Fetching coaches...", new Date().toISOString());
+      commit("SET_SELECTED_PROFESSIONS", ["Frontend", "Backend", "Full stack"]);
       commit("SET_LOADING", true);
       commit("SET_ERROR", null);
 
@@ -39,8 +49,8 @@ const coachesModule: Module<CoachesState, any> = {
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_COACHES", data);
       } catch (error) {
-        commit("SET_ERROR", "Failed to fetch coaches");
         console.error("Error fetching coaches:", error);
+        commit("SET_ERROR", "Failed to fetch coaches");
       } finally {
         commit("SET_LOADING", false);
       }
@@ -55,16 +65,18 @@ const coachesModule: Module<CoachesState, any> = {
   },
 
   getters: {
-    allCoaches: (state: CoachesState) => state.coaches,
+    allCoaches: (state: CoachesState) => {
+      return state.coaches;
+    },
     filteredCoaches: (state: CoachesState) => {
-      if (state.selectedProfessions.length === 0) {
-        return state.coaches;
-      }
-      return state.coaches.filter((coach) =>
-        state.selectedProfessions.some((profession) =>
-          coach.skills.includes(profession.name)
-        )
-      );
+
+      return state.coaches.filter((coach) => {
+        const hasSelectedSkill = coach.skills.some((skill) =>
+          state.selectedProfessions.includes(skill)
+        );
+      
+        return hasSelectedSkill;
+      });
     },
 
     isLoading: (state: CoachesState) => state.isLoading,
