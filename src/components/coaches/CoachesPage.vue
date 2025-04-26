@@ -32,7 +32,7 @@ export default defineComponent({
   },
   computed: {
     ...mapState('Coach', ['isLoading', 'error']),
-    ...mapGetters('Coach', ['filteredCoaches']),
+    ...mapGetters('Coach', ['filteredCoaches', 'allCoaches']),
   },
   methods: {
     ...mapActions('Coach', ['fetchCoaches', 'updateSelectedProfessions']),
@@ -47,10 +47,11 @@ export default defineComponent({
   },
   created() {
     this.fetchCoaches();
-    
+  },
+  mounted() {
+    console.table(this.allCoaches);
 
-    
-  }
+  },
 });
 </script>
 

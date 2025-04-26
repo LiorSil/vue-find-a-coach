@@ -55,6 +55,7 @@ const coachesModule: Module<CoachesState, any> = {
   },
 
   getters: {
+    allCoaches: (state: CoachesState) => state.coaches,
     filteredCoaches: (state: CoachesState) => {
       if (state.selectedProfessions.length === 0) {
         return state.coaches;

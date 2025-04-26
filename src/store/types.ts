@@ -1,9 +1,9 @@
 // import { RequestsState } from './requests/types';
-
+export type Skill = "Frontend" | "Backend" | "Full Stack";
 
 export interface Profession {
   id: number;
-  name: string;
+  name: Skill;
   selected: boolean;
 }
 
@@ -13,9 +13,8 @@ export interface Coach {
   firstName: string;
   lastName: string;
   description: string;
-  hourlyRate: number;
-  areas: string[];
-  profession: Profession;
+  pricePerHour: number;
+  skills: Skill[];
 }
 
 export interface CoachesState {
