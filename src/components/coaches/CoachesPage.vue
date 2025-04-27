@@ -57,6 +57,7 @@ export default defineComponent({
   },
   mounted() {
     this.fetchCoaches();
+    console.table(this.filteredCoaches);
   },
 });
 </script>

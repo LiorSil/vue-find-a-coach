@@ -46,7 +46,7 @@ export default defineComponent({
       type: Array,
       required: true,
     },
-    
+   
   },
   methods: {
     refreshCoaches() {

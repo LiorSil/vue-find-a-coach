@@ -22,6 +22,7 @@ export interface CoachesState {
   selectedProfessions: Profession[];
   isLoading: boolean;
   error: string | null;
+  selectedCoach: Coach | null;
 }
 
 type RootState = { coaches: CoachesState };

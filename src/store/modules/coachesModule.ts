@@ -1,6 +1,12 @@
 import type { Coach, CoachesState, Profession, Skill } from "../types";
 import type { Commit, Module } from "vuex";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  doc,
+  getDoc,
+} from "firebase/firestore";
 import app from "../../data/firebase.js";
 
 const coachesModule: Module<CoachesState, any> = {
@@ -11,19 +17,20 @@ const coachesModule: Module<CoachesState, any> = {
     selectedProfessions: [],
     isLoading: false,
     error: null,
+    selectedCoach: null as Coach | null,
   },
 
   mutations: {
     SET_COACHES(state: CoachesState, coaches: Coach[]) {
-     
       state.coaches = coaches;
     },
+    SET_SELECTED_COACH(state: CoachesState, coach: Coach) {
+      state.selectedCoach = coach;
+    },
     SET_SELECTED_PROFESSIONS(state: CoachesState, professions: Profession[]) {
-     
       state.selectedProfessions = professions;
     },
     SET_LOADING(state: CoachesState, isLoading: boolean) {
-     
       state.isLoading = isLoading;
     },
     SET_ERROR(state: CoachesState, error: string | null) {
@@ -62,23 +69,58 @@ const coachesModule: Module<CoachesState, any> = {
     ) {
       commit("SET_SELECTED_PROFESSIONS", professions);
     },
-  },
 
+    async fetchCoachById(
+      { commit, state }: { commit: Commit; state: CoachesState },
+      id: string
+    ) {
+      commit("SET_LOADING", true);
+      commit("SET_ERROR", null);
+
+      try {
+        // First try to find coach in state
+        let coach = state.coaches.find((coach) => coach.id === id);
+
+        // If coach not found in state, fetch from Firestore
+        if (!coach) {
+          const db = getFirestore(app);
+          const querySnapshot = await getDocs(collection(db, "coaches"));
+          const coaches = querySnapshot.docs.map((doc) => doc.data());
+          if (coaches.length === 0) {
+            throw new Error("No coaches found");
+          } else {
+            coach = coaches.find((coach) => coach.id === Number(id)) as Coach;
+          }
+        }
+
+        // Update the selected coach
+        commit("SET_SELECTED_COACH", coach);
+      } catch (error) {
+        console.error("Error finding/fetching coach:", error);
+        commit("SET_ERROR", "Failed to find/fetch coach details");
+      } finally {
+        commit("SET_LOADING", false);
+      }
+    },
+  },
   getters: {
     allCoaches: (state: CoachesState) => {
       return state.coaches;
     },
+    selectedCoach: (state: CoachesState) => {
+      return state.selectedCoach;
+    },
     filteredCoaches: (state: CoachesState) => {
-
       return state.coaches.filter((coach) => {
         const hasSelectedSkill = coach.skills.some((skill) =>
           state.selectedProfessions.includes(skill)
         );
-      
         return hasSelectedSkill;
       });
     },
-
+    getCoachById: (state: CoachesState) => (id: string) => {
+      return state.coaches.find((coach) => coach.id === id);
+    },
     isLoading: (state: CoachesState) => state.isLoading,
     error: (state: CoachesState) => state.error,
     selectedProfessions: (state: CoachesState) => state.selectedProfessions,
