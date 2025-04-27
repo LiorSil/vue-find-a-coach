@@ -5,6 +5,7 @@ export interface Profession {
   id: number;
   name: Skill;
   selected: boolean;
+  toLowerCase: () => string;
 }
 
 

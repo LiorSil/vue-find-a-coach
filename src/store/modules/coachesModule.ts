@@ -56,7 +56,7 @@ const coachesModule: Module<CoachesState, any> = {
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_COACHES", data);
       } catch (error) {
-        console.error("Error fetching coaches:", error);
+        console.error("Error fetching coaches:", error);      
         commit("SET_ERROR", "Failed to fetch coaches");
       } finally {
         commit("SET_LOADING", false);
@@ -78,26 +78,43 @@ const coachesModule: Module<CoachesState, any> = {
       commit("SET_ERROR", null);
 
       try {
-        // First try to find coach in state
-        let coach = state.coaches.find((coach) => coach.id === id);
+        // First try to find coach in filtered coaches
+        let coach = state.coaches.find((coach) => String(coach.id) === id);
 
-        // If coach not found in state, fetch from Firestore
+        // If coach not found in filtered coaches, try all coaches
         if (!coach) {
           const db = getFirestore(app);
           const querySnapshot = await getDocs(collection(db, "coaches"));
           const coaches = querySnapshot.docs.map((doc) => doc.data());
+
           if (coaches.length === 0) {
             throw new Error("No coaches found");
-          } else {
-            coach = coaches.find((coach) => coach.id === Number(id)) as Coach;
+          }
+
+          // Update the coaches state with all coaches
+          commit("SET_COACHES", coaches);
+
+          // Find the coach in the updated state
+          coach = coaches.find((coach) => String(coach.id) === id) as Coach;
+
+          if (!coach) {
+            throw new Error("Coach not found");
           }
         }
 
         // Update the selected coach
         commit("SET_SELECTED_COACH", coach);
+        commit("SET_ERROR", null); // Clear any previous errors
       } catch (error) {
         console.error("Error finding/fetching coach:", error);
-        commit("SET_ERROR", "Failed to find/fetch coach details");
+        console.log("error", error);
+        commit(
+          "SET_ERROR",
+          error instanceof Error
+            ? error.message
+            : "Failed to find/fetch coach details"
+        );
+        commit("SET_SELECTED_COACH", null); // Clear selected coach on error
       } finally {
         commit("SET_LOADING", false);
       }
@@ -113,7 +130,9 @@ const coachesModule: Module<CoachesState, any> = {
     filteredCoaches: (state: CoachesState) => {
       return state.coaches.filter((coach) => {
         const hasSelectedSkill = coach.skills.some((skill) =>
-          state.selectedProfessions.includes(skill)
+          state.selectedProfessions.some(
+            (prof) => prof.toLowerCase() === skill.toLowerCase()
+          )
         );
         return hasSelectedSkill;
       });

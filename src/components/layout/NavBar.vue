@@ -96,7 +96,7 @@ export default {
   },
   props: {
     selectedComponent: {
-      required: true,
+      required: false,
     },
   },
   methods: {
