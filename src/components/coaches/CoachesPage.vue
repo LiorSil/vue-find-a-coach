@@ -7,7 +7,7 @@
         :professions="professions"
         @filter-professions="updateProfessions"
       />
-      <CoachesList :coaches="filteredCoaches" />
+      <CoachesList :coaches="filteredCoaches"  />
     </template>
   </div>
 </template>
@@ -19,6 +19,7 @@ import CoachesFilter from "./CoachesFilter.vue";
 import CoachesList from "./CoachesList.vue";
 import type { Profession } from "../../store/types";
 import { professions as professionsData } from "../../data/Professions.json";
+import { useRouter } from "vue-router";
 
 export default defineComponent({
   name: "CoachesPage",
@@ -29,8 +30,7 @@ export default defineComponent({
   data() {
     return {
       professions: professionsData as Profession[],
-      
-      
+      router: useRouter(),
     };
   },
   computed: {
@@ -42,16 +42,22 @@ export default defineComponent({
     updateProfessions(professions: Profession[]) {
       this.professions = professions;
       const selectedProfessions = professions
-        .filter(p => p.selected)
-        .map(p => p.name);
-          this.updateSelectedProfessions(selectedProfessions);
+        .filter((p) => p.selected)
+        .map((p) => p.name);
+      this.updateSelectedProfessions(selectedProfessions);
     },
+    navigateToCoach(id: string) {
+      this.$router.push(`/coaches/${id}`);
+    },
+  },
+  provide() {
+    return {
+      navigateToCoach: this.navigateToCoach
+    };
   },
   mounted() {
     this.fetchCoaches();
   },
-
- 
 });
 </script>
 
