@@ -1,12 +1,6 @@
 import type { Coach, CoachesState, Profession, Skill } from "../types";
 import type { Commit, Module } from "vuex";
-import {
-  collection,
-  getDocs,
-  getFirestore,
-  doc,
-  getDoc,
-} from "firebase/firestore";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 import app from "../../data/firebase.js";
 
 const coachesModule: Module<CoachesState, any> = {
@@ -34,12 +28,14 @@ const coachesModule: Module<CoachesState, any> = {
       state.isLoading = isLoading;
     },
     SET_ERROR(state: CoachesState, error: string | null) {
-      console.log("Error state changed:", {
-        previous: state.error,
-        new: error,
-        timestamp: new Date().toISOString(),
-      });
-      state.error = error;
+      if (state.error) {
+        console.log("Error state changed:", {
+          previous: state.error,
+          new: error,
+          timestamp: new Date().toISOString(),
+        });
+        state.error = error;
+      }
     },
   },
 
@@ -48,6 +44,7 @@ const coachesModule: Module<CoachesState, any> = {
       console.log("Fetching coaches...", new Date().toISOString());
       commit("SET_SELECTED_PROFESSIONS", ["Frontend", "Backend", "Full stack"]);
       commit("SET_LOADING", true);
+
       commit("SET_ERROR", null);
 
       try {
@@ -56,7 +53,7 @@ const coachesModule: Module<CoachesState, any> = {
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_COACHES", data);
       } catch (error) {
-        console.error("Error fetching coaches:", error);      
+        console.error("Error fetching coaches:", error);
         commit("SET_ERROR", "Failed to fetch coaches");
       } finally {
         commit("SET_LOADING", false);

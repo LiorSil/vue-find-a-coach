@@ -52,7 +52,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg"
     >
       <CoachCard
-        v-for="(coach) in filteredCoaches"
+        v-for="coach in filteredCoaches"
         :key="coach.id"
         :coach="coach"
       />
