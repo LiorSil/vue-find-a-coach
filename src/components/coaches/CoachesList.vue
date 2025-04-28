@@ -48,15 +48,18 @@
     </div>
 
     <!-- Cards Grid -->
-    <div
+    <transition-group
+      name="coach-list"
+      tag="div"
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg"
     >
       <CoachCard
         v-for="coach in filteredCoaches"
         :key="coach.id"
         :coach="coach"
+        class="coach-item"
       />
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -97,5 +100,29 @@ button:hover {
 
 button:active {
   transform: translateY(0);
+}
+
+/* List transition animations */
+.coach-list-enter-active,
+.coach-list-leave-active {
+  transition: all 0.5s ease;
+}
+
+.coach-list-enter-from {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.coach-list-leave-to {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.coach-list-move {
+  transition: transform 0.5s ease;
+}
+
+.coach-item {
+  transition: all 0.3s ease;
 }
 </style>

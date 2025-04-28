@@ -1,4 +1,4 @@
-import type { Coach, CoachesState, Profession, Skill } from "../types";
+import type { Coach, CoachesState, Profession } from "../types";
 import type { Commit, Module } from "vuex";
 import { collection, getDocs, getFirestore } from "firebase/firestore";
 import app from "../../data/firebase.js";
