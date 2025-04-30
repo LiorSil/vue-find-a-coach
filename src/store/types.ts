@@ -28,6 +28,13 @@ export interface CoachesState {
   isLoaded: boolean;
 }
 
-type RootState = { coaches: CoachesState };
+export interface RequestsState {
+  requests: Request[];
+  isLoading: boolean;
+  error: string | null;
+}
+
+
+type RootState = { coaches: CoachesState, requests: RequestsState };
 
 export type { RootState };

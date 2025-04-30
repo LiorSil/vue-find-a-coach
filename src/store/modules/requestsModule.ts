@@ -1,71 +1,43 @@
 import type { Module } from "vuex";
-import type { Coach, CoachesState, Profession } from "../types";
+import type { Coach, RequestsState, Profession } from "../types";
 
-const coachesModule: Module<CoachesState, any> = {
+const coachesModule: Module<RequestsState, any> = {
   namespaced: true,
 
   state: {
-    coaches: [],
-    selectedProfessions: [] as Profession[],
+    requests: [],
     isLoading: false,
     error: null,
   },
 
   mutations: {
-    SET_COACHES(state, coaches: Coach[]) {
-      state.coaches = coaches;
+    SET_REQUESTS(state: RequestsState, requests: Request[]) {
+      state.requests = requests;
     },
-    SET_SELECTED_PROFESSIONS(state, professions: Profession[]) {
-      state.selectedProfessions = professions;
-    },
-    SET_LOADING(state, isLoading: boolean) {
+    SET_LOADING(state: RequestsState, isLoading: boolean) {
       state.isLoading = isLoading;
     },
-    SET_ERROR(state, error: string | null) {
+    SET_ERROR(state: RequestsState, error: string | null) {
       state.error = error;
     },
   },
 
   actions: {
-    async fetchCoaches({ commit }) {
+    async fetchRequests({ commit }) {
       commit("SET_LOADING", true);
-      commit("SET_ERROR", null);
-
       try {
-        // TODO: Replace with actual API call
-        const response = await fetch("/api/coaches");
-        const data = await response.json();
-        commit("SET_COACHES", data);
+        commit("SET_REQUESTS", []);
       } catch (error) {
-        commit("SET_ERROR", "Failed to fetch coaches");
-        console.error("Error fetching coaches:", error);
+        commit("SET_ERROR", error);
       } finally {
         commit("SET_LOADING", false);
       }
     },
-
-    updateSelectedProfessions({ commit }, professions: string[]) {
-      commit("SET_SELECTED_PROFESSIONS", professions);
-    },
   },
 
   getters: {
-    filteredCoaches: (state) => {
-      if (state.selectedProfessions.length === 0) {
-        return state.coaches;
-      }
-
-      return state.coaches.filter((coach) =>
-        state.selectedProfessions.some((profession) =>
-          coach.skills.includes(profession.name)
-        )
-      );
-    },
-
-    isLoading: (state) => state.isLoading,
-    error: (state) => state.error,
-    selectedProfessions: (state) => state.selectedProfessions,
+    requests: (state: RequestsState) => state.requests,
+    isLoading: (state: RequestsState) => state.isLoading,
+    error: (state: RequestsState) => state.error,
   },
 };
-
-export default coachesModule;
