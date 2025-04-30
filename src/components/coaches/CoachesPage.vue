@@ -20,6 +20,7 @@ import { defineComponent } from "vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesContent from "./CoachesContent.vue";
+
 import type { Profession } from "../../store/types";
 import { professions as professionsData } from "../../data/Professions.json";
 import { useRouter } from "vue-router";

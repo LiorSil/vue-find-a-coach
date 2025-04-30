@@ -22,7 +22,7 @@
       </BaseButton>
     </div>
 
-    <div v-if="isLoading" class="loading">Loading...</div>
+    <div v-if="isLoading" class="loading"><Loading /></div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <template v-else-if="selectedCoach">
       <!-- Profile Section -->
@@ -54,21 +54,7 @@
           </p>
 
           <!-- Skills Section -->
-          <div class="mb-8">
-            <h4 class="text-xl font-medium text-white mb-4">
-              Expertise
-            </h4>
-            <div class="flex flex-wrap gap-3">
-              <span
-                v-for="skill in selectedCoach.skills"
-                :key="skill"
-                class="relative bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-purple-400 border border-purple-400"
-              >
-                <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-transparent rounded-lg"></div>
-                <span class="relative z-10">{{ skill }}</span>
-              </span>
-            </div>
-          </div>
+          <Skills :skills="selectedCoach.skills" :isTitle="true" />
 
           <!-- Contact Section -->
           <div class="flex justify-center">
@@ -103,12 +89,16 @@ import { defineComponent } from "vue";
 import { mapState, mapActions, mapGetters } from "vuex";
 import BaseCard from "../ui/BaseCard.vue";
 import BaseButton from "../ui/BaseButton.vue";
+import Loading from "../ui/Loading.vue";
+import Skills from "./Skills.vue";
 
 export default defineComponent({
   name: "CoachDetail",
   components: {
     BaseCard,
     BaseButton,
+    Loading,
+    Skills,
   },
   props: {
     id: {

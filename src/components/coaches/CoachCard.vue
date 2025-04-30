@@ -9,15 +9,11 @@
           <span class="text-sm text-gray-500 dark:text-gray-400 mb-2">
             ${{ coach.pricePerHour }}/hour
           </span>
-          
+
           <!-- Skills Stamps -->
           <div class="flex flex-wrap gap-2 mb-4">
-            <span 
-              v-for="skill in coach.skills" 
-              :key="skill"
-              class="px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
-            >
-              {{ skill }}
+            <span>
+              <Skills :skills="coach.skills" :title="true" />
             </span>
           </div>
 
@@ -42,13 +38,14 @@
 </template>
 
 <script>
-import BaseCard from '../ui/BaseCard.vue';
-import { useRouter } from 'vue-router';
-
+import BaseCard from "../ui/BaseCard.vue";
+import { useRouter } from "vue-router";
+import Skills from "./Skills.vue";
 export default {
   name: "CoachCard",
   components: {
     BaseCard,
+    Skills,
   },
   props: {
     coach: {
@@ -63,8 +60,11 @@ export default {
   methods: {
     viewDetails() {
       this.router.push(`/coaches/${this.coach.id}`);
-    }
-  }
+    },
+  },
+  mounted() {
+    console.table(this.coach.skills);
+  },
 };
 </script>
 

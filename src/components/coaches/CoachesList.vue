@@ -1,11 +1,11 @@
 <template>
   <div class="container mx-auto px-4 rounded-lg">
     <!-- Header with buttons -->
-    <div class="flex justify-between items-center mb-6 m-2">
-      <h2 class="text-2xl font-semibold text-gray-800 dark:text-white">
+    <div class="flex justify-between items-center ">
+      <h2 class="text-2xl font-semibold text-gray-800 ">
         Available Coaches
       </h2>
-      <div class="flex gap-3">
+      <div class="flex gap-3 m-3">
         <BaseButton variant="primary" @click="refreshCoaches">
           <template #icon>
             <svg
@@ -46,7 +46,7 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg ">
       <CoachCard
         v-for="coach in filteredCoaches"
         :key="coach.id"

@@ -1,7 +1,7 @@
 <template>
   <div>
     <transition name="fade" mode="out-in">
-      <div v-if="isLoading" class="loading">Loading...</div>
+      <Loading v-if="isLoading" />
       <div v-else-if="error" class="error">{{ error }}</div>
       <CoachesList
         v-else-if="coaches && coaches.length > 0"
@@ -14,12 +14,14 @@
 <script lang="ts">
 import { defineComponent, type PropType } from "vue";
 import CoachesList from "./CoachesList.vue";
+import Loading from "../ui/Loading.vue";
 import type { Coach } from "../../store/types";
 
 export default defineComponent({
   name: "CoachesContent",
   components: {
     CoachesList,
+    Loading,
   },
   props: {
     isLoading: {
