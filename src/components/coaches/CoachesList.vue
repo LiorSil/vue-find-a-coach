@@ -65,6 +65,7 @@ import CoachCard from "./CoachCard.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
+  name: "CoachesList",
   components: {
     CoachCard,
   },

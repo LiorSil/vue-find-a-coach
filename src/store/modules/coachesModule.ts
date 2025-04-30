@@ -11,12 +11,15 @@ const coachesModule: Module<CoachesState, any> = {
     selectedProfessions: [],
     isLoading: false,
     error: null,
+    shouldAnimateInitialLoad: true,
     selectedCoach: null as Coach | null,
+    isLoaded: false,
   },
 
   mutations: {
     SET_COACHES(state: CoachesState, coaches: Coach[]) {
       state.coaches = coaches;
+      state.isLoaded = true;
     },
     SET_SELECTED_COACH(state: CoachesState, coach: Coach) {
       state.selectedCoach = coach;
@@ -37,14 +40,27 @@ const coachesModule: Module<CoachesState, any> = {
         state.error = error;
       }
     },
+    DISABLE_INITIAL_LOAD_ANIMATION(state: CoachesState) {
+      state.shouldAnimateInitialLoad = false;
+    },
   },
 
   actions: {
-    async fetchCoaches({ commit }: { commit: Commit }) {
+    async fetchCoaches({
+      commit,
+      state,
+    }: {
+      commit: Commit;
+      state: CoachesState;
+    }) {
+      if (state.isLoaded && state.coaches.length > 0) {
+        console.log("Coaches already loaded, skipping fetch");
+        return;
+      }
+
       console.log("Fetching coaches...", new Date().toISOString());
       commit("SET_SELECTED_PROFESSIONS", ["Frontend", "Backend", "Full stack"]);
       commit("SET_LOADING", true);
-
       commit("SET_ERROR", null);
 
       try {
@@ -75,10 +91,8 @@ const coachesModule: Module<CoachesState, any> = {
       commit("SET_ERROR", null);
 
       try {
-        // First try to find coach in filtered coaches
         let coach = state.coaches.find((coach) => String(coach.id) === id);
 
-        // If coach not found in filtered coaches, try all coaches
         if (!coach) {
           const db = getFirestore(app);
           const querySnapshot = await getDocs(collection(db, "coaches"));
@@ -88,10 +102,8 @@ const coachesModule: Module<CoachesState, any> = {
             throw new Error("No coaches found");
           }
 
-          // Update the coaches state with all coaches
           commit("SET_COACHES", coaches);
 
-          // Find the coach in the updated state
           coach = coaches.find((coach) => String(coach.id) === id) as Coach;
 
           if (!coach) {
@@ -99,9 +111,8 @@ const coachesModule: Module<CoachesState, any> = {
           }
         }
 
-        // Update the selected coach
         commit("SET_SELECTED_COACH", coach);
-        commit("SET_ERROR", null); // Clear any previous errors
+        commit("SET_ERROR", null);
       } catch (error) {
         console.error("Error finding/fetching coach:", error);
         console.log("error", error);
@@ -111,20 +122,24 @@ const coachesModule: Module<CoachesState, any> = {
             ? error.message
             : "Failed to find/fetch coach details"
         );
-        commit("SET_SELECTED_COACH", null); // Clear selected coach on error
+        commit("SET_SELECTED_COACH", null);
       } finally {
         commit("SET_LOADING", false);
       }
     },
+    disableInitialLoadAnimation({ commit }: { commit: Commit }) {
+      commit("DISABLE_INITIAL_LOAD_ANIMATION");
+    },
   },
+
   getters: {
-    allCoaches: (state: CoachesState) => {
-      return state.coaches;
-    },
-    selectedCoach: (state: CoachesState) => {
-      return state.selectedCoach;
-    },
+    allCoaches: (state: CoachesState) => state.coaches,
+    selectedCoach: (state: CoachesState) => state.selectedCoach,
     filteredCoaches: (state: CoachesState) => {
+      if (!state.isLoaded) {
+        return [];
+      }
+
       return state.coaches.filter((coach) => {
         const hasSelectedSkill = coach.skills.some((skill) =>
           state.selectedProfessions.some(
@@ -134,12 +149,9 @@ const coachesModule: Module<CoachesState, any> = {
         return hasSelectedSkill;
       });
     },
-    getCoachById: (state: CoachesState) => (id: string) => {
-      return state.coaches.find((coach) => coach.id === id);
-    },
-    isLoading: (state: CoachesState) => state.isLoading,
-    error: (state: CoachesState) => state.error,
-    selectedProfessions: (state: CoachesState) => state.selectedProfessions,
+    isCoachesLoaded: (state: CoachesState) => state.isLoaded,
+    shouldAnimateInitialLoad: (state: CoachesState) =>
+      state.shouldAnimateInitialLoad,
   },
 };
 

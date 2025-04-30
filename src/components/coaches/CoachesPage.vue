@@ -1,22 +1,17 @@
 <template>
   <div class="coaches-page">
     <div class="filter-container">
-     
-        <CoachesFilter
-          :professions="professions"
-          @filter-professions="updateProfessions"
-        />
-      
+      <CoachesFilter
+        :professions="professions"
+        @filter-professions="updateProfessions"
+      />
     </div>
 
-    <transition name="fade" mode="out-in">
-      <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-else-if="error" class="error">{{ error }}</div>
-      <CoachesList
-        v-else-if="filteredCoaches && filteredCoaches.length > 0"
-        :coaches="filteredCoaches"
-      />
-    </transition>
+    <CoachesContent
+      :is-loading="isLoading"
+      :error="error"
+      :coaches="filteredCoaches"
+    />
   </div>
 </template>
 
@@ -24,7 +19,7 @@
 import { defineComponent } from "vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import CoachesFilter from "./CoachesFilter.vue";
-import CoachesList from "./CoachesList.vue";
+import CoachesContent from "./CoachesContent.vue";
 import type { Profession } from "../../store/types";
 import { professions as professionsData } from "../../data/Professions.json";
 import { useRouter } from "vue-router";
@@ -33,7 +28,7 @@ export default defineComponent({
   name: "CoachesPage",
   components: {
     CoachesFilter,
-    CoachesList,
+    CoachesContent,
   },
   data() {
     return {
@@ -42,13 +37,12 @@ export default defineComponent({
     };
   },
   computed: {
-    ...mapState("Coach", ["isLoading", "error"]),
-    ...mapGetters("Coach", ["filteredCoaches", "allCoaches"]),
+    ...mapState("Coach", ["isLoading", "error", "shouldAnimateInitialLoad"]),
+    ...mapGetters("Coach", ["filteredCoaches", "allCoaches", "isCoachesLoaded"]),
   },
   methods: {
-    ...mapActions("Coach", ["fetchCoaches", "updateSelectedProfessions"]),
+    ...mapActions("Coach", ["fetchCoaches", "updateSelectedProfessions", "disableInitialLoadAnimation"]),
     updateProfessions(professions: Profession[]) {
-      console.log("CoachesPage - updateProfessions called", professions);
       this.professions = professions;
       const selectedProfessions = professions
         .filter((p) => p.selected)
@@ -65,7 +59,12 @@ export default defineComponent({
     };
   },
   mounted() {
-    this.fetchCoaches();
+    if (this.shouldAnimateInitialLoad) {
+      this.fetchCoaches();
+    }
+  },
+  beforeUnmount() {
+    this.disableInitialLoadAnimation();
   },
 });
 </script>
@@ -98,8 +97,6 @@ export default defineComponent({
   flex-direction: column;
   gap: 1rem;
 }
-
-
 
 /* Fade transition */
 .fade-enter-active,

@@ -24,6 +24,8 @@ export interface CoachesState {
   isLoading: boolean;
   error: string | null;
   selectedCoach: Coach | null;
+  shouldAnimateInitialLoad: boolean;
+  isLoaded: boolean;
 }
 
 type RootState = { coaches: CoachesState };
