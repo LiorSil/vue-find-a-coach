@@ -1,63 +1,95 @@
 <template>
-  <div class="space-y-4">
+  <div class="container mx-auto px-4 py-6 space-y-6">
     <!-- Back Button -->
-    <div class="mb-4">
-      <button
-        @click="goBack"
-        class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-      >
-        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
+    <div class="mb-6">
+      <BaseButton variant="info" @click="goBack">
+        <template #icon>
+          <svg
+            class="w-4 h-4 mr-2"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 19l-7-7m0 0l7-7m-7 7h18"
+            />
+          </svg>
+        </template>
         Back to Coaches
-      </button>
+      </BaseButton>
     </div>
 
     <div v-if="isLoading" class="loading">Loading...</div>
     <div v-else-if="error" class="error">{{ error }}</div>
     <template v-else-if="selectedCoach">
-      <!-- First Card: Name and Price -->
+      <!-- Profile Section -->
       <BaseCard>
-        <div class="flex flex-col items-center p-6">
-          <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-2">
+        <div class="flex flex-col items-center p-8 ">
+          <div class="w-32 h-32 mb-4 rounded-full bg-gray-500 hover:bg-gray-600 flex items-center justify-center">
+            <span class="text-4xl text-white">
+              {{ selectedCoach.firstName[0] }}{{ selectedCoach.lastName[0] }}
+            </span>
+          </div>
+          <h2 class="text-3xl font-bold text-white mb-2">
             {{ selectedCoach.firstName }} {{ selectedCoach.lastName }}
           </h2>
-          <span class="text-lg text-gray-500 dark:text-gray-400">
+          <span class="text-xl text-gray-300">
             ${{ selectedCoach.pricePerHour }}/hour
           </span>
         </div>
       </BaseCard>
 
-      <!-- Second Card: Description and Skills -->
+      <!-- About Section -->
       <BaseCard>
-        <div class="p-6">
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-4">About Me</h3>
-          
-          <p class="text-gray-600 dark:text-gray-300 mb-6">
-            {{ selectedCoach.description || 'No description available.' }}
+        <div class="p-8">
+          <h3 class="text-2xl font-semibold text-white mb-6">
+            About Me
+          </h3>
+
+          <p class="text-gray-300 mb-8 leading-relaxed">
+            {{ selectedCoach.description || "No description available." }}
           </p>
 
           <!-- Skills Section -->
-          <div class="mb-6">
-            <h4 class="text-lg font-medium text-gray-900 dark:text-white mb-3">Skills</h4>
-            <div class="flex flex-wrap gap-2">
-              <span 
-                v-for="skill in selectedCoach.skills" 
+          <div class="mb-8">
+            <h4 class="text-xl font-medium text-white mb-4">
+              Expertise
+            </h4>
+            <div class="flex flex-wrap gap-3">
+              <span
+                v-for="skill in selectedCoach.skills"
                 :key="skill"
-                class="px-3 py-1 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
+                class="relative bg-purple-100 text-purple-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded-sm dark:bg-gray-700 dark:text-purple-400 border border-purple-400"
               >
-                {{ skill }}
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-400/10 to-transparent rounded-lg"></div>
+                <span class="relative z-10">{{ skill }}</span>
               </span>
             </div>
           </div>
 
-          <!-- Contact Button -->
+          <!-- Contact Section -->
           <div class="flex justify-center">
-            <button
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
+            <BaseButton variant="success" @click="contactCoach">
+              <template #icon>
+                <svg
+                  class="w-4 h-4 mr-2"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                  />
+                </svg>
+              </template>
               Contact Coach
-            </button>
+            </BaseButton>
           </div>
         </div>
       </BaseCard>
@@ -66,35 +98,42 @@
   </div>
 </template>
 
-<script>
-import BaseCard from '../ui/BaseCard.vue';
-import { mapState, mapActions, mapGetters } from 'vuex';
+<script lang="ts">
+import { defineComponent } from "vue";
+import { mapState, mapActions, mapGetters } from "vuex";
+import BaseCard from "../ui/BaseCard.vue";
+import BaseButton from "../ui/BaseButton.vue";
 
-export default {
-  name: 'CoachDetail',
+export default defineComponent({
+  name: "CoachDetail",
   components: {
-    BaseCard
+    BaseCard,
+    BaseButton,
   },
   props: {
     id: {
       type: String,
-      required: true
-    }
+      required: true,
+    },
   },
   computed: {
-    ...mapState('Coach', ['isLoading', 'error']),
-    ...mapGetters('Coach', ['selectedCoach'])
+    ...mapState("Coach", ["isLoading", "error"]),
+    ...mapGetters("Coach", ["selectedCoach"]),
   },
   methods: {
-    ...mapActions('Coach', ['fetchCoachById']),
+    ...mapActions("Coach", ["fetchCoachById"]),
     goBack() {
-      this.$router.push('/coaches');
-    }
+      this.$router.push("/coaches");
+    },
+    contactCoach() {
+      // TODO: Implement contact functionality
+      console.log("Contact coach:", this.selectedCoach?.id);
+    },
   },
   created() {
     this.fetchCoachById(this.id);
-  }
-}
+  },
+});
 </script>
 
 <style scoped>
@@ -110,5 +149,40 @@ export default {
   padding: 2rem;
   color: #dc2626;
   font-size: 1.2rem;
+}
+
+/* Smooth transitions for cards */
+:deep(.base-card) {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+:deep(.base-card:hover) {
+  transform: translateY(-2px);
+}
+
+/* Skill badge hover effect */
+:deep(.base-card) {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+:deep(.base-card:hover) {
+  transform: translateY(-2px);
+}
+
+/* Add a subtle pulse animation to the skills */
+@keyframes subtle-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.1);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(59, 130, 246, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
+  }
+}
+
+span[class*="bg-gradient-to-r"] {
+  animation: subtle-pulse 2s infinite;
 }
 </style>

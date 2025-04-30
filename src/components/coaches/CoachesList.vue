@@ -60,14 +60,12 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import CoachCard from "./CoachCard.vue";
-import BaseButton from "../ui/BaseButton.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
   name: "CoachesList",
   components: {
     CoachCard,
-    BaseButton,
   },
   computed: {
     ...mapGetters("Coach", ["filteredCoaches"]),
