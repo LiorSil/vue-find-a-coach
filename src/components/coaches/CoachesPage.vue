@@ -1,23 +1,21 @@
 <template>
-  <!-- TODO: Make the transition work as expected -->
-  <div class="coaches-page" >
-    <transition name="fade" mode="out-in">
-      <div v-if="isLoading" class="loading">Loading...</div>
-      <div v-else-if="error" class="error">{{ error }}</div>
-      <div v-else class="content">
+  <div class="coaches-page">
+    <div class="filter-container">
+     
         <CoachesFilter
           :professions="professions"
           @filter-professions="updateProfessions"
         />
-        <transition/>
+      
+    </div>
 
-        <transition name="slide-fade" mode="out-in">
-          <CoachesList 
-            v-if="filteredCoaches && filteredCoaches.length > 0"
-            :coaches="filteredCoaches" 
-          />
-        </transition>
-      </div>
+    <transition name="fade" mode="out-in">
+      <div v-if="isLoading" class="loading">Loading...</div>
+      <div v-else-if="error" class="error">{{ error }}</div>
+      <CoachesList
+        v-else-if="filteredCoaches && filteredCoaches.length > 0"
+        :coaches="filteredCoaches"
+      />
     </transition>
   </div>
 </template>
@@ -50,7 +48,7 @@ export default defineComponent({
   methods: {
     ...mapActions("Coach", ["fetchCoaches", "updateSelectedProfessions"]),
     updateProfessions(professions: Profession[]) {
-      console.log('CoachesPage - updateProfessions called', professions);
+      console.log("CoachesPage - updateProfessions called", professions);
       this.professions = professions;
       const selectedProfessions = professions
         .filter((p) => p.selected)
@@ -67,16 +65,18 @@ export default defineComponent({
     };
   },
   mounted() {
-
     this.fetchCoaches();
   },
-
 });
 </script>
 
 <style scoped>
 .coaches-page {
   padding: 1rem;
+}
+
+.filter-container {
+  margin-bottom: 1rem;
 }
 
 .loading {
@@ -99,6 +99,8 @@ export default defineComponent({
   gap: 1rem;
 }
 
+
+
 /* Fade transition */
 .fade-enter-active,
 .fade-leave-active {
@@ -111,21 +113,4 @@ export default defineComponent({
 }
 
 /* Slide fade transition */
-.slide-fade-enter-active {
-  transition: all 0.5s ease-out;
-}
-
-.slide-fade-leave-active {
-  transition: all 0.5s ease-in;
-}
-
-.slide-fade-enter-from {
-  opacity: 0;
-  transform: translateY(-20px);
-}
-
-.slide-fade-leave-to {
-  opacity: 0;
-  transform: translateY(20px);
-}
 </style>
