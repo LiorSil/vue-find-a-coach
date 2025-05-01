@@ -8,14 +8,39 @@ export interface Profession {
   toLowerCase: () => string;
 }
 
-
 export interface Coach {
-  id: string;
+  id: number;
   firstName: string;
   lastName: string;
   description: string;
   pricePerHour: number;
   skills: Skill[];
+}
+
+export type FirebaseTimestamp = {
+  seconds: number;
+  nanoseconds: number;
+};
+
+export const convertFirebaseTimestamp = (
+  timestamp: FirebaseTimestamp
+): Date => {
+  return new Date(timestamp.seconds * 1000 + timestamp.nanoseconds / 1000000);
+};
+
+export interface Request {
+  id: number;
+  coachFirstname: string;
+  coachLastname: string;
+  message: string;
+  requestDate: FirebaseTimestamp;
+  requestedBy: string;
+  email: string;
+}
+
+export interface ProcessedRequest extends Omit<Request, "requestDate"> {
+  requestDate: Date;
+  formattedDate: string;
 }
 
 export interface CoachesState {
@@ -29,12 +54,11 @@ export interface CoachesState {
 }
 
 export interface RequestsState {
-  requests: Request[];
+  requests: ProcessedRequest[];
   isLoading: boolean;
   error: string | null;
 }
 
-
-type RootState = { coaches: CoachesState, requests: RequestsState };
+type RootState = { coaches: CoachesState; requests: RequestsState };
 
 export type { RootState };

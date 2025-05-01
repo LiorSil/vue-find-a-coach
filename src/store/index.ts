@@ -1,7 +1,8 @@
 // create vuex a store and import from store modules
 import { createStore } from "vuex";
 import coachesModule from "./modules/coachesModule";
-// import requestModule from "./modules/requests";
+import requestsModule from "./modules/requestsModule";
+
 
 import type { RootState } from "./types";
 
@@ -9,7 +10,7 @@ import type { RootState } from "./types";
 const store = createStore<RootState>({
   modules: {
     Coach: coachesModule,
-    // Request: requestModule,
+    Request: requestsModule,
   },
 });
 // export the store instance

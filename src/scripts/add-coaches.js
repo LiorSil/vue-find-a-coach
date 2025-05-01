@@ -23,10 +23,9 @@ async function addCoachesToFirebase() {
         skills: coach.skills,
         description: coach.description,
       });
-      console.log(`Added coach: ${coach.firstName} ${coach.lastName}`);
+    
     }
 
-    console.log("All coaches have been added successfully!");
   } catch (error) {
     console.error("Error adding coaches:", error);
   }

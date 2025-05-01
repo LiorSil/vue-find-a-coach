@@ -53,12 +53,10 @@ const coachesModule: Module<CoachesState, any> = {
       commit: Commit;
       state: CoachesState;
     }) {
-      if (state.isLoaded && state.coaches.length > 0 && !state.selectedCoach) {
-        console.log("Coaches already loaded, skipping fetch");
+      if (state.isLoaded && state.coaches.length > 0 && !state.selectedCoach) 
         return;
-      }
+      
 
-      console.log("Fetching coaches...", new Date().toISOString());
       commit("SET_SELECTED_PROFESSIONS", ["Frontend", "Backend", "Full stack"]);
       commit("SET_LOADING", true);
       commit("SET_ERROR", null);

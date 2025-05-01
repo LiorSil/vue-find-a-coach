@@ -16,12 +16,19 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import NavBar from "./components/layout/NavBar.vue";
+import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "App",
   components: {
     NavBar,
-  }
+  },
+  methods: {
+    ...mapActions("Request", ["fetchRequests"]),
+  },
+  mounted() {
+    this.fetchRequests();
+  },
 });
 </script>
 

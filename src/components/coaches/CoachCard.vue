@@ -62,9 +62,7 @@ export default {
       this.router.push(`/coaches/${this.coach.id}`);
     },
   },
-  mounted() {
-    console.table(this.coach.skills);
-  },
+
 };
 </script>
 

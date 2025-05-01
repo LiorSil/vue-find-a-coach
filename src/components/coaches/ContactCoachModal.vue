@@ -1,6 +1,6 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 bg-white bg-opacity-60 backdrop-blur-sm flex items-center justify-center z-50">
-    <div class="bg-gray-800 rounded-lg p-6 w-full max-w-md">
+  <div v-if="isOpen" class="fixed inset-0 bg-gray-700/30 backdrop-blur-3xl flex items-center justify-center z-50">
+    <div class="bg-gray-900/90 backdrop-blur-sm rounded-lg p-6 w-full max-w-md border-2 border-gray-800 shadow-xl">
       <div class="flex justify-between items-center mb-4">
         <h3 class="text-xl font-semibold text-white">Contact Coach</h3>
         <button @click="closeModal" class="text-gray-400 hover:text-white">
@@ -116,4 +116,11 @@ export default defineComponent({
     };
   }
 });
-</script> 
+</script>
+
+<style scoped>
+.fixed {
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+</style> 
