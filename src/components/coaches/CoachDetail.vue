@@ -58,7 +58,7 @@
 
           <!-- Contact Section -->
           <div class="flex justify-center">
-            <BaseButton variant="success" @click="contactCoach">
+            <BaseButton variant="success" @click="openContactModal">
               <template #icon>
                 <svg
                   class="w-4 h-4 mr-2"
@@ -81,6 +81,14 @@
       </BaseCard>
     </template>
     <div v-else class="error">Coach not found</div>
+
+    <!-- Contact Modal -->
+    <ContactCoachModal
+      :is-open="isContactModalOpen"
+      :coach-id="selectedCoach?.id"
+      @close="closeContactModal"
+      @submit="handleContactSubmit"
+    />
   </div>
 </template>
 
@@ -91,6 +99,7 @@ import BaseCard from "../ui/BaseCard.vue";
 import BaseButton from "../ui/BaseButton.vue";
 import Loading from "../ui/Loading.vue";
 import Skills from "./Skills.vue";
+import ContactCoachModal from "./ContactCoachModal.vue";
 
 export default defineComponent({
   name: "CoachDetail",
@@ -99,12 +108,18 @@ export default defineComponent({
     BaseButton,
     Loading,
     Skills,
+    ContactCoachModal,
   },
   props: {
     id: {
       type: String,
       required: true,
     },
+  },
+  data() {
+    return {
+      isContactModalOpen: false,
+    };
   },
   computed: {
     ...mapState("Coach", ["isLoading", "error"]),
@@ -115,9 +130,16 @@ export default defineComponent({
     goBack() {
       this.$router.push("/coaches");
     },
-    contactCoach() {
-      // TODO: Implement contact functionality
-      console.log("Contact coach:", this.selectedCoach?.id);
+    openContactModal() {
+      this.isContactModalOpen = true;
+    },
+    closeContactModal() {
+      this.isContactModalOpen = false;
+    },
+    handleContactSubmit(formData: { fullName: string; email: string; message: string; coachId: string }) {
+      console.log('Contact form submitted:', formData);
+      // Here you would typically handle the form submission
+      // For example, dispatch an action to send the message
     },
   },
   created() {

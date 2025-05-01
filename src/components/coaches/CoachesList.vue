@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 rounded-lg">
+  <div class="container mx-auto px-4 rounded-lg max-w-5/6">
     <!-- Header with buttons -->
     <div class="flex justify-between items-center ">
       <h2 class="text-2xl font-semibold text-gray-800 ">

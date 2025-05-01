@@ -53,7 +53,7 @@ const coachesModule: Module<CoachesState, any> = {
       commit: Commit;
       state: CoachesState;
     }) {
-      if (state.isLoaded && state.coaches.length > 0) {
+      if (state.isLoaded && state.coaches.length > 0 && !state.selectedCoach) {
         console.log("Coaches already loaded, skipping fetch");
         return;
       }
@@ -68,6 +68,15 @@ const coachesModule: Module<CoachesState, any> = {
         const querySnapshot = await getDocs(collection(db, "coaches"));
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_COACHES", data);
+
+        if (state.selectedCoach?.id) {
+          const coach = data.find(
+            (coach) => String(coach.id) === String(state.selectedCoach?.id)
+          );
+          if (coach) {
+            commit("SET_SELECTED_COACH", coach);
+          }
+        }
       } catch (error) {
         console.error("Error fetching coaches:", error);
         commit("SET_ERROR", "Failed to fetch coaches");
