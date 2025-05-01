@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-4 py-6 space-y-6">
+  <div class="container mx-auto px-4 py-6 space-y-6 max-w-3xl">
     <!-- Back Button -->
     <div class="mb-6">
       <BaseButton variant="info" @click="goBack">
