@@ -76,7 +76,7 @@ export default defineComponent({
       required: true
     },
     coachId: {
-      type: String,
+      type: Number,
       required: true
     }
   },

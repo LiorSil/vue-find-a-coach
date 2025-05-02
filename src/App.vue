@@ -1,9 +1,13 @@
 <template>
   <header>
-    <nav>
-      <h1>Find a Coach</h1>
-      <router-link to="/">All Coaches</router-link> |
-      <router-link to="/requests">Requests</router-link>
+    <nav class="nav-bar">
+      <FlowBite />
+     
+
+      <nav class="nav-links">
+        <router-link to="/">All Coaches</router-link> |
+        <router-link to="/requests">Requests</router-link>
+      </nav>
     </nav>
   </header>
   <router-view v-slot="slotProps">
@@ -15,13 +19,13 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import NavBar from "./components/layout/NavBar.vue";
 import { mapActions } from "vuex";
+import FlowBite from "./components/layout/FlowBite.vue";
 
 export default defineComponent({
   name: "App",
   components: {
-    NavBar,
+    FlowBite,
   },
   methods: {
     ...mapActions("Request", ["fetchRequests"]),
@@ -34,8 +38,6 @@ export default defineComponent({
 
 <style>
 @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
-
-
 
 * {
   box-sizing: border-box;
@@ -56,11 +58,11 @@ body {
 }
 
 :root {
-  --background-image: url('@/assets/light-mode-background.png');
+  --background-image: url("@/assets/light-mode-background.png");
 }
 
 [data-theme="dark"] {
-  --background-image: url('@/assets/dark-mode-background.png');
+  --background-image: url("@/assets/dark-mode-background.png");
 }
 
 header {
@@ -101,7 +103,7 @@ h1 a.router-link-active {
   border-color: transparent;
 }
 
-header nav {
+.nav-bar {
   width: 90%;
   margin: auto;
   display: flex;
@@ -146,7 +148,7 @@ header li {
   transform: translateY(0);
 }
 #app {
-  background-image: url('./assets/light-mode-background.png');
+  background-image: url("./assets/light-mode-background.png");
   background-size: cover; /* or `contain`, `repeat` etc. */
   background-repeat: repeat;
   background-attachment: fixed;
