@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import CoachDetail from "./components/coaches/CoachDetail.vue";
 import CoachesPage from "./components/coaches/CoachesPage.vue";
+import RequestsPage from "./components/requests/RequestsPage.vue";
 
 // Create a new router instance
 const router = createRouter({
@@ -19,6 +20,10 @@ const router = createRouter({
       name: "coach-detail",
       component: CoachDetail,
       props: true,
+    },
+    {
+      path: "/requests",
+      component: RequestsPage,
     },
   ],
 });

@@ -1,10 +1,8 @@
 <template>
   <div class="container mx-auto px-4 rounded-lg max-w-5/6">
     <!-- Header with buttons -->
-    <div class="flex justify-between items-center ">
-      <h2 class="text-2xl font-semibold text-gray-800 ">
-        Available Coaches
-      </h2>
+    <div class="flex justify-between items-center">
+      <h2 class="text-2xl font-semibold text-gray-800">Available Coaches</h2>
       <div class="flex gap-3 m-3">
         <BaseButton variant="primary" @click="refreshCoaches">
           <template #icon>
@@ -46,14 +44,18 @@
     </div>
 
     <!-- Cards Grid -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg ">
+    <transition-group
+      name="list"
+      tag="div"
+      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg"
+    >
       <CoachCard
         v-for="coach in filteredCoaches"
         :key="coach.id"
         :coach="coach"
         class="coach-item"
       />
-    </div>
+    </transition-group>
   </div>
 </template>
 
@@ -76,9 +78,9 @@ export default defineComponent({
       this.fetchCoaches();
     },
     registerCoach() {
-      // Emit event to parent to show registration form
       this.$emit("register-coach");
     },
+
   },
 });
 </script>
@@ -97,5 +99,33 @@ button:active {
   transform: translateY(0);
 }
 
+/* List transition */
+.list-enter-active {
+  transition: all 0.5s ease;
+}
 
+.list-leave-active {
+  transition: all 0.5s ease;
+  position: absolute;
+  width: 100%;
+}
+
+.list-enter-from {
+  opacity: 0;
+  transform: translateY(30px);
+}
+
+.list-leave-to {
+  opacity: 0;
+  transform: translateY(-30px);
+}
+
+.list-move {
+  transition: transform 0.5s ease;
+}
+
+/* Ensure grid maintains structure during animation */
+.grid {
+  position: relative;
+}
 </style>

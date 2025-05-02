@@ -1,5 +1,5 @@
 <template>
-  <BaseCard>
+  <BaseCard class="coach-item">
     <div class="flex justify-center">
       <div class="w-full max-w-sm">
         <div class="flex flex-col items-center p-6">
@@ -62,8 +62,11 @@ export default {
       this.router.push(`/coaches/${this.coach.id}`);
     },
   },
-
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.coach-item {
+  transition: all 0.5s ease;
+}
+</style>

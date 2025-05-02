@@ -47,15 +47,6 @@ html {
   font-family: "Roboto", sans-serif;
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  background-image: var(--background-image);
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed;
-  background-repeat: no-repeat;
-}
 
 :root {
   --background-image: url("@/assets/light-mode-background.png");
@@ -104,7 +95,7 @@ h1 a.router-link-active {
 }
 
 .nav-bar {
-  width: 90%;
+  width: 100%;
   margin: auto;
   display: flex;
   justify-content: space-between;
@@ -147,9 +138,9 @@ header li {
   opacity: 1;
   transform: translateY(0);
 }
+
 #app {
   background-image: url("./assets/light-mode-background.png");
-  background-size: cover; /* or `contain`, `repeat` etc. */
   background-repeat: repeat;
   background-attachment: fixed;
   min-height: 100vh;

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex items-center gap-2">
+  <div class="pl-4 flex items-center gap-2">
     <img
       src="https://flowbite.com/docs/images/logo.svg"
       class="h-8"
