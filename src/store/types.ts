@@ -30,8 +30,8 @@ export const convertFirebaseTimestamp = (
 
 export interface Request {
   id: number;
-  coachFirstname: string;
-  coachLastname: string;
+  firstname: string;
+  lastname: string;
   message: string;
   requestDate: FirebaseTimestamp;
   requestedBy: string;

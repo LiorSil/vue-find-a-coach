@@ -58,8 +58,9 @@ const requestsModule: Module<RequestsState, any> = {
         const querySnapshot = await getDocs(collection(db, "requests"));
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_REQUESTS", data);
+
       } catch (error) {
-        commit("SET_ERROR", error);
+        commit("SET_ERROR", error instanceof Error ? error.message : 'Failed to fetch requests');
       } finally {
         commit("SET_LOADING", false);
       }
@@ -70,6 +71,13 @@ const requestsModule: Module<RequestsState, any> = {
     requests: (state: RequestsState) => state.requests,
     isLoading: (state: RequestsState) => state.isLoading,
     error: (state: RequestsState) => state.error,
+    hasRequests: (state: RequestsState) => state.requests.length > 0,
+    requestsCount: (state: RequestsState) => state.requests.length,
+    sortedRequests: (state: RequestsState) => {
+      return [...state.requests].sort((a, b) => 
+        b.requestDate.getTime() - a.requestDate.getTime()
+      );
+    }
   },
 };
 

@@ -1,6 +1,6 @@
 <template>
   <header>
-    <nav class="nav-bar">
+    <nav class="nav-bar ">
       <FlowBite />
      
 
@@ -57,6 +57,7 @@ html {
 }
 
 header {
+  
   width: 100%;
   height: 5rem;
   background-color: #3d008d;
@@ -95,8 +96,10 @@ h1 a.router-link-active {
 }
 
 .nav-bar {
+  
   width: 100%;
   margin: auto;
+  margin-right: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
