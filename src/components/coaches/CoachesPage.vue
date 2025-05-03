@@ -28,16 +28,24 @@
       :is-open="showCreateCoachModal"
       @close="showCreateCoachModal = false"
     />
+
+    <!-- Toast -->
+    <Toast
+      :is-visible="showToast"
+      :message="toastMessage"
+      @hide="showToast = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent } from "vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesContent from "./CoachesContent.vue";
 import CoachesActions from "./CoachesActions.vue";
 import CreateCoach from "./CreateCoach.vue";
+import Toast from "../ui/Toast.vue";
 
 import type { Profession } from "../../store/types";
 import { professions as professionsData } from "../../data/Professions.json";
@@ -50,15 +58,15 @@ export default defineComponent({
     CoachesContent,
     CoachesActions,
     CreateCoach,
-  },
-  setup() {
-    const showCreateCoachModal = ref(false);
-    return { showCreateCoachModal };
+    Toast,
   },
   data() {
     return {
       professions: professionsData as Profession[],
       router: useRouter(),
+      showCreateCoachModal: false,
+      showToast: false,
+      toastMessage: "",
     };
   },
   computed: {
@@ -85,10 +93,18 @@ export default defineComponent({
     navigateToCoach(id: string) {
       this.$router.push(`/coaches/${id}`);
     },
+    showSuccessToast(message: string) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 5000);
+    },
   },
   provide() {
     return {
       navigateToCoach: this.navigateToCoach,
+      showSuccessToast: this.showSuccessToast
     };
   },
   mounted() {

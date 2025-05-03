@@ -85,9 +85,9 @@
     <!-- Contact Modal -->
     <ContactCoachModal
       :is-open="isContactModalOpen"
-      :coach-id="selectedCoach?.id"
       @close="closeContactModal"
-      @submit="handleContactSubmit"
+      :coach-first-name="selectedCoach.firstName"
+      :coach-last-name="selectedCoach.lastName"
     />
   </div>
 </template>
@@ -136,11 +136,7 @@ export default defineComponent({
     closeContactModal() {
       this.isContactModalOpen = false;
     },
-    handleContactSubmit(formData: { fullName: string; email: string; message: string; coachId: string }) {
-      console.log('Contact form submitted:', formData);
-      // Here you would typically handle the form submission
-      // For example, dispatch an action to send the message
-    },
+
   },
   created() {
     this.fetchCoachById(this.id);

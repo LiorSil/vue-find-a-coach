@@ -43,6 +43,17 @@ export interface ProcessedRequest extends Omit<Request, "requestDate"> {
   formattedDate: string;
 }
 
+export interface RequestData {
+  id: number;
+  firstname: string;
+  lastname: string;
+  fullname: string;
+  email: string;
+  message: string;
+  requestDate: Date;
+  requestedBy: string;
+}
+
 export interface CoachesState {
   coaches: Coach[];
   selectedProfessions: Profession[];

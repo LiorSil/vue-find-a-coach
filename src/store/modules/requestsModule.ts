@@ -1,7 +1,19 @@
 import type { Commit, Module } from "vuex";
-import type { Request, RequestsState, ProcessedRequest } from "../types";
+import type {
+  Request,
+  RequestsState,
+  ProcessedRequest,
+  RequestData,
+} from "../types";
 import { convertFirebaseTimestamp } from "../types";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  addDoc,
+  serverTimestamp,
+  Timestamp,
+} from "firebase/firestore";
 import app from "../../data/firebase";
 
 const requestsModule: Module<RequestsState, any> = {
@@ -27,16 +39,29 @@ const requestsModule: Module<RequestsState, any> = {
           requestDate: date,
           formattedDate,
         };
-      
+
         return processedRequest;
       });
-      console.log("state.requests", state.requests);
     },
     SET_LOADING(state: RequestsState, isLoading: boolean) {
       state.isLoading = isLoading;
     },
     SET_ERROR(state: RequestsState, error: string | null) {
       state.error = error;
+    },
+    ADD_REQUEST(state: RequestsState, request: Request) {
+      const date = convertFirebaseTimestamp(request.requestDate);
+      const formattedDate = date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      });
+      const processedRequest: ProcessedRequest = {
+        ...request,
+        requestDate: date,
+        formattedDate,
+      };
+      state.requests.push(processedRequest);
     },
   },
 
@@ -58,9 +83,49 @@ const requestsModule: Module<RequestsState, any> = {
         const querySnapshot = await getDocs(collection(db, "requests"));
         const data = querySnapshot.docs.map((doc) => doc.data());
         commit("SET_REQUESTS", data);
-
       } catch (error) {
-        commit("SET_ERROR", error instanceof Error ? error.message : 'Failed to fetch requests');
+        commit(
+          "SET_ERROR",
+          error instanceof Error ? error.message : "Failed to fetch requests"
+        );
+      } finally {
+        commit("SET_LOADING", false);
+      }
+    },
+
+    async createRequest(
+      { commit, state }: { commit: Commit; state: RequestsState },
+      requestData: RequestData
+    ) {
+      commit("SET_LOADING", true);
+      commit("SET_ERROR", null);
+
+      try {
+        const db = getFirestore(app);
+        const requestsCollection = collection(db, "requests");
+        const newRequest = {
+          id: state.requests.length + 1,
+          firstname: requestData.firstname,
+          lastname: requestData.lastname,
+          email: requestData.email,
+          message: requestData.message,
+          requestDate: Timestamp.fromDate(new Date()),
+          requestedBy: requestData.fullname,
+        };
+        console.log("newRequest", newRequest);
+        const docRef = await addDoc(requestsCollection, newRequest);
+        console.log("docRef", docRef);
+        const requestWithId = { ...newRequest, id: docRef.id };
+
+        commit("ADD_REQUEST", requestWithId);
+        return requestWithId;
+      } catch (error) {
+        console.error("Error creating request:", error);
+        commit(
+          "SET_ERROR",
+          error instanceof Error ? error.message : "Failed to create request"
+        );
+        throw error;
       } finally {
         commit("SET_LOADING", false);
       }
@@ -74,10 +139,10 @@ const requestsModule: Module<RequestsState, any> = {
     hasRequests: (state: RequestsState) => state.requests.length > 0,
     requestsCount: (state: RequestsState) => state.requests.length,
     sortedRequests: (state: RequestsState) => {
-      return [...state.requests].sort((a, b) => 
-        b.requestDate.getTime() - a.requestDate.getTime()
+      return [...state.requests].sort(
+        (a, b) => b.requestDate.getTime() - a.requestDate.getTime()
       );
-    }
+    },
   },
 };
 

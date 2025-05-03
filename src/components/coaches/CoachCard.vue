@@ -19,33 +19,40 @@
 
           <!-- Buttons -->
           <div class="flex gap-3">
-            <button
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-lg hover:bg-green-700 focus:ring-4 focus:outline-none focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            >
+            <BaseButton variant="success" @click="openContactModal">
               Contact
-            </button>
-            <button
-              @click="viewDetails"
-              class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              Info
-            </button>
+            </BaseButton>
+            <BaseButton variant="info" @click="viewDetails"> Info </BaseButton>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Contact Modal -->
+    <ContactCoachModal
+      :isOpen="isContactModalOpen"
+      :coachFirstName="coach.firstName"
+      :coachLastName="coach.lastName"
+      @close="closeContactModal"
+    />
   </BaseCard>
 </template>
 
 <script>
 import BaseCard from "../ui/BaseCard.vue";
+import BaseButton from "../ui/BaseButton.vue";
 import { useRouter } from "vue-router";
 import Skills from "./Skills.vue";
+import ContactCoachModal from "./ContactCoachModal.vue";
+import { ref } from "vue";
+
 export default {
   name: "CoachCard",
   components: {
     BaseCard,
     Skills,
+    BaseButton,
+    ContactCoachModal,
   },
   props: {
     coach: {
@@ -55,7 +62,22 @@ export default {
   },
   setup() {
     const router = useRouter();
-    return { router };
+    const isContactModalOpen = ref(false);
+
+    const openContactModal = () => {
+      isContactModalOpen.value = true;
+    };
+
+    const closeContactModal = () => {
+      isContactModalOpen.value = false;
+    };
+
+    return {
+      router,
+      isContactModalOpen,
+      openContactModal,
+      closeContactModal,
+    };
   },
   methods: {
     viewDetails() {
