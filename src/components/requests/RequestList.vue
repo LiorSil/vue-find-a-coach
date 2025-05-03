@@ -1,24 +1,26 @@
 <template>
-  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <RequestItem
-      v-for="request in requests"
-      :key="request.id"
-      :id="request.id"
-      :firstname="request.firstname"
-      :lastname="request.lastname"
-      :email="request.email"
-      :formatted-date="request.formattedDate"
-      :message="request.message"
-      :requested-by="request.requestedBy"
-    />
-  
-  </div>
+  <MasonryWall :items="requests" :column-width="300" :gap="5">
+    <template #default="{ item }">
+      <RequestItem
+        
+        :key="item.id"
+        :id="item.id"
+        :firstname="item.firstname"
+        :lastname="item.lastname"
+        :email="item.email"
+        :formatted-date="item.formattedDate"
+        :message="item.message"
+        :requested-by="item.requestedBy"
+      />
+    </template>
+  </MasonryWall>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapGetters } from "vuex";
 import RequestItem from "./RequestItem.vue";
+import MasonryWall from "@yeger/vue-masonry-wall";
 
 export default defineComponent({
   name: "RequestList",
@@ -41,5 +43,4 @@ export default defineComponent({
   transition: all 0.3s ease;
   backface-visibility: hidden;
 }
-
 </style>
