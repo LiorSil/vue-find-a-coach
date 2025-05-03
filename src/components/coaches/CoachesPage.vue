@@ -4,14 +4,12 @@
       class="sticky mx-auto max-w-2/5 top-0 z-10 bg-gray-200/40 transition-all duration-300 ease-in-out p-3 rounded-lg  border-white/20 shadow-md mb-2"
     >
       <!-- Filter Section -->
-      <div class="mb-2">
+      <div class=" mb-2">
         <CoachesFilter
           :professions="professions"
           @filter-professions="updateProfessions"
         />
       </div>
-
-  
 
       <!-- Actions Section -->
       <div class="w-full  mx-auto">
