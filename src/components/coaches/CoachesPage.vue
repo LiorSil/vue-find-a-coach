@@ -1,10 +1,22 @@
 <template>
-  <div class="coaches-page">
-    <div class="filter-container">
-      <CoachesFilter
-        :professions="professions"
-        @filter-professions="updateProfessions"
-      />
+  <div class="p-2">
+    <div
+      class="sticky mx-auto max-w-2/5 top-0 z-10 bg-gray-200/40 transition-all duration-300 ease-in-out p-3 rounded-lg  border-white/20 shadow-md mb-2"
+    >
+      <!-- Filter Section -->
+      <div class="mb-2">
+        <CoachesFilter
+          :professions="professions"
+          @filter-professions="updateProfessions"
+        />
+      </div>
+
+  
+
+      <!-- Actions Section -->
+      <div class="w-full  mx-auto">
+        <CoachesActions @register-coach="showCreateCoachModal = true" />
+      </div>
     </div>
 
     <CoachesContent
@@ -12,14 +24,22 @@
       :error="error"
       :coaches="filteredCoaches"
     />
+
+    <!-- Create Coach Modal -->
+    <CreateCoach
+      :is-open="showCreateCoachModal"
+      @close="showCreateCoachModal = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import { mapState, mapGetters, mapActions } from "vuex";
 import CoachesFilter from "./CoachesFilter.vue";
 import CoachesContent from "./CoachesContent.vue";
+import CoachesActions from "./CoachesActions.vue";
+import CreateCoach from "./CreateCoach.vue";
 
 import type { Profession } from "../../store/types";
 import { professions as professionsData } from "../../data/Professions.json";
@@ -30,6 +50,12 @@ export default defineComponent({
   components: {
     CoachesFilter,
     CoachesContent,
+    CoachesActions,
+    CreateCoach,
+  },
+  setup() {
+    const showCreateCoachModal = ref(false);
+    return { showCreateCoachModal };
   },
   data() {
     return {
@@ -39,10 +65,18 @@ export default defineComponent({
   },
   computed: {
     ...mapState("Coach", ["isLoading", "error", "shouldAnimateInitialLoad"]),
-    ...mapGetters("Coach", ["filteredCoaches", "allCoaches", "isCoachesLoaded"]),
+    ...mapGetters("Coach", [
+      "filteredCoaches",
+      "allCoaches",
+      "isCoachesLoaded",
+    ]),
   },
   methods: {
-    ...mapActions("Coach", ["fetchCoaches", "updateSelectedProfessions", "disableInitialLoadAnimation"]),
+    ...mapActions("Coach", [
+      "fetchCoaches",
+      "updateSelectedProfessions",
+      "disableInitialLoadAnimation",
+    ]),
     updateProfessions(professions: Profession[]) {
       this.professions = professions;
       const selectedProfessions = professions
@@ -71,35 +105,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.coaches-page {
-  padding: 1rem;
-}
-
-.filter-container {
-  margin-bottom: 1rem;
-}
-
-.loading {
-  text-align: center;
-  padding: 2rem;
-  font-size: 1.2rem;
-  color: #666;
-}
-
-.error {
-  text-align: center;
-  padding: 2rem;
-  color: #dc2626;
-  font-size: 1.2rem;
-}
-
-.content {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-/* Fade transition */
+/* Only keeping the fade transition as it's not easily achievable with Tailwind */
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.5s ease;
@@ -109,6 +115,4 @@ export default defineComponent({
 .fade-leave-to {
   opacity: 0;
 }
-
-/* Slide fade transition */
 </style>
