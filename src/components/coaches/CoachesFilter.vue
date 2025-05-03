@@ -2,13 +2,13 @@
   <div class="mx-auto">
     <div
       :key="professions.map((p) => p.selected).join(',')"
-      class="block  p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
+      class="block p-6 bg-white border border-gray-200 rounded-lg shadow-sm hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700"
     >
       <h3 class="mb-2 font-semibold text-gray-900 dark:text-white">
         Filter by Profession
       </h3>
       <ul
-        class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg sm:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"
+        class="items-center w-full text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg md:flex dark:bg-gray-700 dark:border-gray-600 dark:text-white"
       >
         <li
           v-for="profession in professions"
@@ -25,7 +25,7 @@
             />
             <label
               :for="profession.name.toLowerCase() + '-checkbox-list'"
-              class="w-full py-3 ms-2 text-lg font-medium text-gray-900 dark:text-gray-300"
+              class="w-full py-3 ms-2 font-medium text-gray-900 dark:text-gray-300"
               >{{ profession.name }}</label
             >
           </div>

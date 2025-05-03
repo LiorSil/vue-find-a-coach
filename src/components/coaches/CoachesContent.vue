@@ -1,10 +1,11 @@
 <template>
-  <div>
-    <transition name="fade" mode="out-in">
+  <div >
+    <transition  name="fade" mode="out-in">
       <Loading v-if="isLoading" />
       <div v-else-if="error" class="error">{{ error }}</div>
-      <CoachesList
+      <CoachesList 
         v-else-if="coaches && coaches.length > 0"
+        :key="refreshKey"
         :coaches="coaches"
       />
     </transition>
@@ -36,7 +37,12 @@ export default defineComponent({
       type: Array as PropType<Coach[]>,
       required: true,
     },
+    refreshKey: {
+      type: Number,
+      required: true,
+    },
   },
+
 });
 </script>
 

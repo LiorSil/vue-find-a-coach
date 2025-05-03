@@ -13,14 +13,18 @@
 
       <!-- Actions Section -->
       <div class="w-full  mx-auto">
-        <CoachesActions @register-coach="showCreateCoachModal = true" />
+        <CoachesActions 
+          @register-coach="showCreateCoachModal = true" 
+          @refresh="handleRefresh"
+        />
       </div>
     </div>
 
     <CoachesContent
-      :is-loading="isLoading"
+      :isLoading="isLoading"
       :error="error"
       :coaches="filteredCoaches"
+      :refreshKey="refreshKey"
     />
 
     <!-- Create Coach Modal -->
@@ -67,6 +71,7 @@ export default defineComponent({
       showCreateCoachModal: false,
       showToast: false,
       toastMessage: "",
+      refreshKey: 0,
     };
   },
   computed: {
@@ -99,6 +104,10 @@ export default defineComponent({
       setTimeout(() => {
         this.showToast = false;
       }, 5000);
+    },
+    handleRefresh() {
+      this.refreshKey++;
+      this.fetchCoaches();
     },
   },
   provide() {

@@ -7,7 +7,7 @@
       class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg"
     >
       <CoachCard
-        v-for="coach in filteredCoaches"
+        v-for="coach in coaches"
         :key="coach.id"
         :coach="coach"
         class="coach-item"
@@ -17,17 +17,20 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, type PropType } from "vue";
 import CoachCard from "./CoachCard.vue";
-import { mapGetters } from "vuex";
+import type { Coach } from "../../store/types";
 
 export default defineComponent({
   name: "CoachesList",
   components: {
     CoachCard,
   },
-  computed: {
-    ...mapGetters("Coach", ["filteredCoaches"]),
+  props: {
+    coaches: {
+      type: Array as PropType<Coach[]>,
+      required: true,
+    },
   },
 });
 </script>

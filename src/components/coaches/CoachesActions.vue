@@ -45,11 +45,11 @@ import { mapActions } from "vuex";
 
 export default defineComponent({
   name: "CoachesActions",
-  emits: ["register-coach"],
+  emits: ["register-coach", "refresh"],
   methods: {
     ...mapActions("Coach", ["fetchCoaches"]),
     refreshCoaches() {
-      this.fetchCoaches();
+      this.$emit("refresh");
     },
     registerCoach() {
       this.$emit("register-coach");
