@@ -56,18 +56,30 @@
         class="coach-item"
       />
     </transition-group>
+
+    <!-- Create Coach Modal -->
+    <CreateCoach 
+      :is-open="showCreateCoachModal" 
+      @close="showCreateCoachModal = false"
+    />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, ref } from "vue";
 import CoachCard from "./CoachCard.vue";
+import CreateCoach from "./CreateCoach.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default defineComponent({
   name: "CoachesList",
   components: {
     CoachCard,
+    CreateCoach,
+  },
+  setup() {
+    const showCreateCoachModal = ref(false);
+    return { showCreateCoachModal };
   },
   computed: {
     ...mapGetters("Coach", ["filteredCoaches"]),
@@ -78,9 +90,8 @@ export default defineComponent({
       this.fetchCoaches();
     },
     registerCoach() {
-      this.$emit("register-coach");
+      this.showCreateCoachModal = true;
     },
-
   },
 });
 </script>

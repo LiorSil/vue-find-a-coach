@@ -1,6 +1,6 @@
 import type { Coach, CoachesState, Profession } from "../types";
 import type { Commit, Module } from "vuex";
-import { collection, getDocs, getFirestore } from "firebase/firestore";
+import { collection, getDocs, getFirestore, addDoc } from "firebase/firestore";
 import app from "../../data/firebase.js";
 
 const coachesModule: Module<CoachesState, any> = {
@@ -43,6 +43,9 @@ const coachesModule: Module<CoachesState, any> = {
     DISABLE_INITIAL_LOAD_ANIMATION(state: CoachesState) {
       state.shouldAnimateInitialLoad = false;
     },
+    ADD_COACH(state: CoachesState, coach: Coach) {
+      state.coaches.push(coach);
+    },
   },
 
   actions: {
@@ -53,9 +56,8 @@ const coachesModule: Module<CoachesState, any> = {
       commit: Commit;
       state: CoachesState;
     }) {
-      if (state.isLoaded && state.coaches.length > 0 && !state.selectedCoach) 
+      if (state.isLoaded && state.coaches.length > 0 && !state.selectedCoach)
         return;
-      
 
       commit("SET_SELECTED_PROFESSIONS", ["Frontend", "Backend", "Full stack"]);
       commit("SET_LOADING", true);
@@ -136,6 +138,39 @@ const coachesModule: Module<CoachesState, any> = {
     },
     disableInitialLoadAnimation({ commit }: { commit: Commit }) {
       commit("DISABLE_INITIAL_LOAD_ANIMATION");
+    },
+    async registerCoach(
+      { commit }: { commit: Commit },
+      coachData: Partial<Coach>
+    ) {
+      commit("SET_LOADING", true);
+      commit("SET_ERROR", null);
+
+      try {
+        const db = getFirestore(app);
+        const coachesCollection = collection(db, "coaches");
+
+        const newCoach = {
+          ...coachData,
+          id: Date.now().toString(), // Generate a temporary ID
+          createdAt: new Date().toISOString(),
+        };
+
+        const docRef = await addDoc(coachesCollection, newCoach);
+        const coachWithId = { ...newCoach, id: docRef.id };
+
+        commit("ADD_COACH", coachWithId);
+        return coachWithId;
+      } catch (error) {
+        console.error("Error registering coach:", error);
+        commit(
+          "SET_ERROR",
+          error instanceof Error ? error.message : "Failed to register coach"
+        );
+        throw error;
+      } finally {
+        commit("SET_LOADING", false);
+      }
     },
   },
 
