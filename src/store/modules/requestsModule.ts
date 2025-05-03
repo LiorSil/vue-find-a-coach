@@ -112,9 +112,7 @@ const requestsModule: Module<RequestsState, any> = {
           requestDate: Timestamp.fromDate(new Date()),
           requestedBy: requestData.fullname,
         };
-        console.log("newRequest", newRequest);
         const docRef = await addDoc(requestsCollection, newRequest);
-        console.log("docRef", docRef);
         const requestWithId = { ...newRequest, id: docRef.id };
 
         commit("ADD_REQUEST", requestWithId);

@@ -16,13 +16,12 @@
   </MasonryWall>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script>
 import { mapGetters } from "vuex";
 import RequestItem from "./RequestItem.vue";
 import MasonryWall from "@yeger/vue-masonry-wall";
 
-export default defineComponent({
+export default {
   name: "RequestList",
   components: {
     RequestItem,
@@ -30,7 +29,7 @@ export default defineComponent({
   computed: {
     ...mapGetters("Request", ["requests"]),
   },
-});
+};
 </script>
 
 <style scoped>

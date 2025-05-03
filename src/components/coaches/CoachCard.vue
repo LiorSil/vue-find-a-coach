@@ -11,7 +11,7 @@
           </span>
 
           <!-- Skills Stamps -->
-          <div class="flex flex-wrap gap-2 mb-4">
+          <div class="flex flex-wrap gap-2 mb-4 w-max">
             <span>
               <Skills :skills="coach.skills" :title="true" />
             </span>
@@ -41,10 +41,8 @@
 <script>
 import BaseCard from "../ui/BaseCard.vue";
 import BaseButton from "../ui/BaseButton.vue";
-import { useRouter } from "vue-router";
 import Skills from "./Skills.vue";
 import ContactCoachModal from "./ContactCoachModal.vue";
-import { ref } from "vue";
 
 export default {
   name: "CoachCard",
@@ -60,30 +58,25 @@ export default {
       required: true,
     },
   },
-  setup() {
-    const router = useRouter();
-    const isContactModalOpen = ref(false);
-
-    const openContactModal = () => {
-      isContactModalOpen.value = true;
-    };
-
-    const closeContactModal = () => {
-      isContactModalOpen.value = false;
-    };
-
+  data() {
     return {
-      router,
-      isContactModalOpen,
-      openContactModal,
-      closeContactModal,
+      isContactModalOpen: false
     };
   },
   methods: {
-    viewDetails() {
-      this.router.push(`/coaches/${this.coach.id}`);
+    openContactModal() {
+      this.isContactModalOpen = true;
     },
-  },
+    closeContactModal() {
+      this.isContactModalOpen = false;
+    },
+    viewDetails() {
+      this.$router.push({
+        name: 'coach-detail',
+        params: { id: this.coach.id }
+      });
+    }
+  }
 };
 </script>
 

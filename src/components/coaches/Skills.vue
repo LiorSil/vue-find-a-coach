@@ -15,14 +15,12 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from "vue";
-
-export default defineComponent({
+<script>
+export default {
   name: "Skills",
   props: {
     skills: {
-      type: Array as () => string[],
+      type: Array,
       required: true,
     },
     isTitle: {
@@ -30,7 +28,7 @@ export default defineComponent({
       default: false,
     },
   },
-});
+};
 </script>
 
 <style scoped>

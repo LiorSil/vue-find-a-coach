@@ -55,8 +55,6 @@ async function addRequestsToFirebase() {
         id: request.id,
       });
     }
-
-    console.log("Successfully added all requests to Firebase!");
   } catch (error) {
     console.error("Error adding requests:", error);
   }

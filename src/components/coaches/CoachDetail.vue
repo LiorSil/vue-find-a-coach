@@ -86,8 +86,15 @@
     <ContactCoachModal
       :is-open="isContactModalOpen"
       @close="closeContactModal"
-      :coach-first-name="selectedCoach.firstName"
-      :coach-last-name="selectedCoach.lastName"
+      :coachFirstName="selectedCoach?.firstName"
+      :coachLastName="selectedCoach?.lastName"
+    />
+
+    <!-- Toast -->
+    <Toast
+      :is-visible="showToast"
+      :message="toastMessage"
+      @hide="showToast = false"
     />
   </div>
 </template>
@@ -100,6 +107,7 @@ import BaseButton from "../ui/BaseButton.vue";
 import Loading from "../ui/Loading.vue";
 import Skills from "./Skills.vue";
 import ContactCoachModal from "./ContactCoachModal.vue";
+import Toast from "../ui/Toast.vue";
 
 export default defineComponent({
   name: "CoachDetail",
@@ -109,6 +117,7 @@ export default defineComponent({
     Loading,
     Skills,
     ContactCoachModal,
+    Toast,
   },
   props: {
     id: {
@@ -119,6 +128,8 @@ export default defineComponent({
   data() {
     return {
       isContactModalOpen: false,
+      showToast: false,
+      toastMessage: "",
     };
   },
   computed: {
@@ -136,7 +147,18 @@ export default defineComponent({
     closeContactModal() {
       this.isContactModalOpen = false;
     },
-
+    showSuccessToast(message: string) {
+      this.toastMessage = message;
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+      }, 5000);
+    }
+  },
+  provide() {
+    return {
+      showSuccessToast: this.showSuccessToast
+    };
   },
   created() {
     this.fetchCoachById(this.id);

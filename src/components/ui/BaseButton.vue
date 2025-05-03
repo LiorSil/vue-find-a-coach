@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed } from "vue";
+import { defineComponent } from "vue";
 
 type ButtonVariant = "primary" | "success" | "danger" | "warning" | "info";
 
@@ -33,8 +33,8 @@ export default defineComponent({
     },
   },
   emits: ["click"],
-  setup(props) {
-    const colorClasses = computed(() => {
+  computed: {
+    colorClasses() {
       const baseClasses = {
         primary:
           "bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 ",
@@ -46,12 +46,8 @@ export default defineComponent({
           "bg-yellow-600 hover:bg-yellow-700 focus:ring-yellow-300 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800",
         info: "bg-gray-500 hover:bg-gray-600 focus:ring-gray-300 dark:bg-gray-500 dark:hover:bg-gray-600 dark:focus:ring-gray-800",
       };
-      return baseClasses[props.variant];
-    });
-
-    return {
-      colorClasses,
-    };
+      return baseClasses[this.variant];
+    },
   },
 });
 </script>

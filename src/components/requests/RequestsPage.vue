@@ -21,12 +21,11 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue';
+<script>
 import { mapState, mapActions } from 'vuex';
 import RequestList from './RequestList.vue';
 
-export default defineComponent({
+export default {
   name: 'RequestsPage',
   components: {
     RequestList
@@ -40,7 +39,7 @@ export default defineComponent({
   created() {
     this.fetchRequests();
   }
-});
+};
 </script>
 
 <style scoped>

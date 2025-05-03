@@ -104,7 +104,7 @@ export default defineComponent({
   components: {
     Loading,
   },
-  inject: ['showSuccessToast'],
+  inject: ["showSuccessToast"],
   props: {
     isOpen: {
       type: Boolean,
@@ -151,11 +151,19 @@ export default defineComponent({
       this.isSubmitting = true;
       try {
         await this.createRequest(this.formData);
-        (this.showSuccessToast as (message: string) => void)("Message sent successfully!");
+        (this.showSuccessToast as (message: string) => void)(
+          "Message sent successfully!"
+        );
         this.clearForm();
         this.closeModal();
+        if (this.$route.path.includes("coaches/")) {
+          this.$router.go(-1);
+        }
       } catch (error) {
         console.error("Error sending message:", error);
+        (this.showSuccessToast as (message: string) => void)(
+          "Failed to send message. Please try again."
+        );
       } finally {
         this.isSubmitting = false;
       }
