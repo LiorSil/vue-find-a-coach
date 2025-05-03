@@ -31,6 +31,7 @@
     <CreateCoach
       :is-open="showCreateCoachModal"
       @close="showCreateCoachModal = false"
+      @success="handleCoachSuccess"
     />
 
     <!-- Toast -->
@@ -109,6 +110,12 @@ export default defineComponent({
       this.refreshKey++;
       this.fetchCoaches();
     },
+    handleCoachSuccess(message: string) {
+      this.showSuccessToast(message);
+      if (message.includes('successfully')) {
+        this.handleRefresh();
+      }
+    }
   },
   provide() {
     return {

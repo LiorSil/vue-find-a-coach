@@ -54,6 +54,13 @@ export interface RequestData {
   requestedBy: string;
 }
 
+export interface CoachData {
+  firstName: string;
+  lastName: string;
+  description: string;
+  hourlyRate: number;
+  skills: Skill[];
+}
 export interface CoachesState {
   coaches: Coach[];
   selectedProfessions: Profession[];

@@ -1,4 +1,4 @@
-import type { Coach, CoachesState, Profession } from "../types";
+import type { Coach, CoachData, CoachesState, Profession } from "../types";
 import type { Commit, Module } from "vuex";
 import { collection, getDocs, getFirestore, addDoc } from "firebase/firestore";
 import app from "../../data/firebase.js";
@@ -139,28 +139,28 @@ const coachesModule: Module<CoachesState, any> = {
     disableInitialLoadAnimation({ commit }: { commit: Commit }) {
       commit("DISABLE_INITIAL_LOAD_ANIMATION");
     },
-    async registerCoach(
-      { commit }: { commit: Commit },
-      coachData: Partial<Coach>
-    ) {
+    async registerCoach({ commit }: { commit: Commit }, coachData: CoachData) {
       commit("SET_LOADING", true);
       commit("SET_ERROR", null);
 
       try {
         const db = getFirestore(app);
         const coachesCollection = collection(db, "coaches");
+        const randomIdNumber = Math.floor(Math.random() * 1000000);
 
         const newCoach = {
-          ...coachData,
-          id: Date.now().toString(), // Generate a temporary ID
-          createdAt: new Date().toISOString(),
+          id: randomIdNumber,
+          firstName: coachData.firstName,
+          lastName: coachData.lastName,
+          description: coachData.description,
+          pricePerHour: coachData.hourlyRate,
+          skills: coachData.skills,
         };
 
         const docRef = await addDoc(coachesCollection, newCoach);
-        const coachWithId = { ...newCoach, id: docRef.id };
-
-        commit("ADD_COACH", coachWithId);
-        return coachWithId;
+        console.log("docRef", docRef);
+        commit("ADD_COACH", newCoach);
+        return newCoach;
       } catch (error) {
         console.error("Error registering coach:", error);
         commit(
