@@ -12,14 +12,14 @@ app.use(router); // Use the router
 app.use(store); // Use the store
 app.use(MasonryWall);
 
-const redirect = sessionStorage.redirect;
-
-if (redirect) {
-  sessionStorage.removeItem("redirect");
-  // Wait until router resolves the redirect path before mounting the app
-  router.replace(redirect).finally(() => {
-    app.mount("#app");
-  });
-} else {
-  app.mount("#app");
+// Handle GitHub Pages redirect
+const l = window.location;
+if (l.pathname.includes('?/')) {
+  const path = l.pathname.slice(1).split('?/')[1].replace(/~and~/g, '&');
+  const search = l.search.slice(1).replace(/~and~/g, '&');
+  const hash = l.hash;
+  const newPath = '/' + path + (search ? '?' + search : '') + hash;
+  router.replace(newPath);
 }
+
+app.mount("#app");
