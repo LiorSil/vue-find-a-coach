@@ -14,3 +14,10 @@
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
+<script>
+  // Save the intended URL before GitHub Pages navigates to 404.html
+  if (!location.pathname.startsWith('/vue-find-a-coach/')) {
+    sessionStorage.redirect = location.href;
+    location.replace('/vue-find-a-coach/');
+  }
+</script>
