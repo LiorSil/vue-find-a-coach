@@ -7,9 +7,7 @@
     <script>
       const base = '/vue-find-a-coach/';
       const path = window.location.pathname.replace(base, '');
-      window.location.replace(base + '?/' + path.replace(/&/g, '~and~') + 
-        (window.location.search ? '&' + window.location.search.slice(1).replace(/&/g, '~and~') : '') +
-        window.location.hash);
+      window.location.replace(base + path);
     </script>
   </head>
   <body>

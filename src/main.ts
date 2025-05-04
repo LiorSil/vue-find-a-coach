@@ -14,12 +14,6 @@ app.use(MasonryWall);
 
 // Handle GitHub Pages redirect
 const l = window.location;
-if (l.pathname.includes('?/')) {
-  const path = l.pathname.slice(1).split('?/')[1].replace(/~and~/g, '&');
-  const search = l.search.slice(1).replace(/~and~/g, '&');
-  const hash = l.hash;
-  const newPath = '/' + path + (search ? '?' + search : '') + hash;
-  router.replace(newPath);
-}
+router.replace(l.pathname);
 
 app.mount("#app");
