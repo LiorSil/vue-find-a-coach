@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <title>Redirecting...</title>
     <script>
-      // Save the full path and query/hash
       sessionStorage.redirect = location.pathname + location.search + location.hash;
-      // Remove the path, keep only the base of the site (repo name)
-      const base = location.origin + "/vue-find-a-coach/";
-      location.replace(base);
+      location.replace('/vue-find-a-coach/');
     </script>
   </head>
   <body>
