@@ -1,7 +1,7 @@
 <template>
   <button
     :class="[
-      'mx-2 inline-flex items-center px-4 py-2 text-sm font-medium text-white rounded-lg focus:ring-4 focus:outline-none transition-all duration-200',
+      '  sm:mx-2 lg:mx-2 inline-flex items-center px-5 md:px-6 lg:px-4 py-2 text-sm font-medium text-white rounded-lg focus:ring-4 focus:outline-none transition-all duration-200',
       colorClasses,
       { 'opacity-50 cursor-not-allowed': disabled },
     ]"

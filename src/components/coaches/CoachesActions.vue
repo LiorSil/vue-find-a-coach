@@ -1,9 +1,9 @@
 <template>
-  <div class="flex justify-between w-full gap-4 items-center  ">
-    <BaseButton variant="primary" @click="refreshCoaches" class="flex-1 justify-center">
+  <div class="flex flex-row justify-center w-full gap-4 items-center">
+    <BaseButton variant="primary" @click="refreshCoaches" class="w-full md:flex-1 justify-center">
       <template #icon>
         <svg
-          class="w-4 h-4 mr-2"
+          class="w-6 h-6 md:w-4 md:h-4 md:mr-2"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -16,12 +16,12 @@
           />
         </svg>
       </template>
-      Refresh
+      <span class="hidden md:inline">Refresh</span>
     </BaseButton>
-    <BaseButton variant="success" @click="registerCoach" class="flex-1 justify-center">
+    <BaseButton variant="success" @click="registerCoach" class="w-full md:flex-1 justify-center">
       <template #icon>
         <svg
-          class="w-4 h-4 mr-2"
+          class="w-6 h-6 md:w-4 md:h-4 md:mr-2"
           fill="none"
           stroke="currentColor"
           viewBox="0 0 24 24"
@@ -30,11 +30,11 @@
             stroke-linecap="round"
             stroke-linejoin="round"
             stroke-width="2"
-            d="M12 4v16m8-8H4"
+            d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"
           />
         </svg>
       </template>
-      Register Coach
+      <span class="hidden md:inline">Register Coach</span>
     </BaseButton>
   </div>
 </template>

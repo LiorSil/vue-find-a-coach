@@ -1,10 +1,10 @@
 <template>
-  <div class="container mx-auto px-4 rounded-lg max-w-5/6">
+  <div class="container mx-auto px-1 md:px-4 rounded-lg max-w-5/6 lg:max-w-11/12">
     <!-- Cards Grid -->
     <transition-group
       name="list"
       tag="div"
-      class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-2 xl:grid-cols-4 gap-4 border-2 border-gray-800 rounded-lg"
+      class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-3 p-0.5 md:p-2 xl:grid-cols-4 gap-1 md:gap-4 border-2 border-gray-800/10 rounded-lg"
     >
       <CoachCard
         v-for="coach in coaches"
