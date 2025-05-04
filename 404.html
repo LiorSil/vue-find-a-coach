@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
     <title>Redirecting…</title>
     <script>
+      // Save the current path so we can restore it later
       sessionStorage.redirect = location.href;
-      location.replace('/vue-find-a-coach/');
+      // Redirect to index.html served by GitHub Pages
+      location.replace("/vue-find-a-coach/");
     </script>
   </head>
   <body>
