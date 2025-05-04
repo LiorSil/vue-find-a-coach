@@ -12,10 +12,11 @@ app.use(router); // Use the router
 app.use(store); // Use the store
 app.use(MasonryWall);
 
-// Handle GitHub Pages redirect fallback
 const redirect = sessionStorage.redirect;
+
 if (redirect) {
   sessionStorage.removeItem("redirect");
+  // Wait until router resolves the redirect path before mounting the app
   router.replace(redirect).finally(() => {
     app.mount("#app");
   });
