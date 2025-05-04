@@ -12,8 +12,5 @@ app.use(router); // Use the router
 app.use(store); // Use the store
 app.use(MasonryWall);
 
-// Handle GitHub Pages redirect
-const l = window.location;
-router.replace(l.pathname);
 
 app.mount("#app");
