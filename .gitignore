@@ -17,3 +17,8 @@ dist-ssr
 main-prj-21-finished/
 
 .env
+.env.local
+.env.development
+.env.production
+
+
