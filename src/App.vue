@@ -28,6 +28,7 @@ import FlowBite from "./components/layout/FlowBite.vue";
 import lightBackground from './assets/light-mode-background.png';
 import darkBackground from './assets/dark-mode-background.png';
 
+
 export default defineComponent({
   name: "App",
   components: {
@@ -40,6 +41,7 @@ export default defineComponent({
       darkBackground,
     };
   },
+
   methods: {
     ...mapActions("Request", ["fetchRequests"]),
     toggleTheme() {

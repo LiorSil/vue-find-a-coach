@@ -5,7 +5,7 @@ import RequestsPage from "./components/requests/RequestsPage.vue";
 
 // Create a new router instance
 const router = createRouter({
-  history: createWebHistory(), // Use the HTML5 history mode
+  history: createWebHistory(import.meta.env.BASE_URL), 
   routes: [
     {
       path: "/",
