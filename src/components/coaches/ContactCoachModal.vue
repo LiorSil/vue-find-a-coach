@@ -1,18 +1,19 @@
 <template>
   <div
     v-if="isOpen"
-    class="fixed inset-0 bg-gray-700/30 backdrop-blur-3xl flex items-center justify-center z-50"
+    class="fixed inset-0 bg-gray-700/30 backdrop-blur-3xl flex items-center justify-center z-50 p-4 overflow-hidden"
+    @click.self="closeModal"
   >
     <div v-if="isSubmitting" class="loading"><Loading /></div>
     <div
       v-else
-      class="bg-gray-900/90 backdrop-blur-sm rounded-lg p-6 w-full max-w-md border-2 border-gray-800 shadow-xl"
+      class="bg-gray-900/90 backdrop-blur-sm rounded-lg p-4 md:p-6 w-full max-w-[90%] md:max-w-md border-2 border-gray-800 shadow-xl mx-auto"
     >
       <div class="flex justify-between items-center mb-4">
-        <h3 class="text-xl font-semibold text-white">Contact Coach</h3>
+        <h3 class="text-lg md:text-xl font-semibold text-white">Contact Coach</h3>
         <button @click="closeModal" class="text-gray-400 hover:text-white">
           <svg
-            class="w-6 h-6"
+            class="w-5 h-5 md:w-6 md:h-6"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -27,7 +28,7 @@
         </button>
       </div>
 
-      <form @submit.prevent="handleContactSubmit" class="space-y-4">
+      <form @submit.prevent="handleContactSubmit" class="space-y-3 md:space-y-4">
         <div>
           <label
             for="fullname"
@@ -77,13 +78,13 @@
           <button
             type="button"
             @click="closeModal"
-            class="px-4 py-2 text-sm font-medium text-gray-300 hover:text-white bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
+            class="px-3 py-1.5 md:px-4 md:py-2 text-sm font-medium text-gray-300 hover:text-white bg-gray-700 rounded-md hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-500"
           >
             Cancel
           </button>
           <button
             type="submit"
-            class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            class="px-3 py-1.5 md:px-4 md:py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             :disabled="isSubmitting"
           >
             {{ isSubmitting ? "Sending..." : "Send Message" }}
@@ -130,6 +131,18 @@ export default defineComponent({
       },
       isSubmitting: false,
     };
+  },
+  watch: {
+    isOpen(newValue) {
+      if (newValue) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+    }
+  },
+  beforeUnmount() {
+    document.body.style.overflow = '';
   },
   methods: {
     ...mapActions("Request", ["createRequest"]),
