@@ -1,13 +1,15 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Redirecting...</title>
     <script>
-      // Save the path so the app can restore it later
+      // Save the full path and query/hash
       sessionStorage.redirect = location.pathname + location.search + location.hash;
-      // Redirect to the root
-      location.replace('/vue-find-a-coach/');
+      // Remove the path, keep only the base of the site (repo name)
+      const base = location.origin + "/vue-find-a-coach/";
+      location.replace(base);
     </script>
   </head>
   <body>
