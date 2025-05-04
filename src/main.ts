@@ -11,4 +11,12 @@ app.component("BaseButton", BaseButton);
 app.use(router); // Use the router
 app.use(store); // Use the store
 app.use(MasonryWall);
+
+// Handle GitHub Pages redirect fallback
+const redirect = sessionStorage.redirect;
+if (redirect) {
+  sessionStorage.removeItem("redirect");
+  router.replace(redirect);
+}
+
 app.mount("#app");

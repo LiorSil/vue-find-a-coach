@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Redirecting...</title>
+    <script>
+      // Save the path so the app can restore it later
+      sessionStorage.redirect = location.pathname + location.search + location.hash;
+      // Redirect to the root
+      location.replace('/vue-find-a-coach/');
+    </script>
+  </head>
+  <body>
+    Redirecting...
+  </body>
+</html>
