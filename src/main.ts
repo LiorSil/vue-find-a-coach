@@ -16,7 +16,9 @@ app.use(MasonryWall);
 const redirect = sessionStorage.redirect;
 if (redirect) {
   sessionStorage.removeItem("redirect");
-  router.replace(redirect);
+  router.replace(redirect).finally(() => {
+    app.mount("#app");
+  });
+} else {
+  app.mount("#app");
 }
-
-app.mount("#app");
