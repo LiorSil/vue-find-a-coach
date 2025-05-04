@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto px-1 md:px-4 rounded-lg max-w-5/6 lg:max-w-11/12">
+  <div class="container mx-auto px-1 md:px-4 rounded-lg max-w-full lg:max-w-11/12">
     <!-- Cards Grid -->
     <transition-group
       name="list"

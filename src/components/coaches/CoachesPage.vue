@@ -1,7 +1,7 @@
 <template>
   <div class="p-2">
     <div
-      class="sticky mx-auto max-w-4/5 md:max-w-2/5 top-0 z-10 bg-gray-200/70 transition-all duration-300 ease-in-out p-3 rounded-lg  border-white/20 shadow-md mb-2"
+      class="sticky mx-auto max-w-5/6 md:max-w-2/5 top-0 z-10 bg-gray-200/70 transition-all duration-300 ease-in-out p-3 rounded-lg  border-white/20 shadow-md mb-2"
     >
       <!-- Filter Section -->
       <div class=" mb-2">
@@ -12,7 +12,7 @@
       </div>
 
       <!-- Actions Section -->
-      <div class="w-full  mx-auto">
+      <div class="w-5/6 md:w-full  mx-auto">
         <CoachesActions 
           @register-coach="showCreateCoachModal = true" 
           @refresh="handleRefresh"
