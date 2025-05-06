@@ -103,7 +103,7 @@ const requestsModule: Module<RequestsState, any> = {
         const db = getFirestore(app);
         const requestsCollection = collection(db, "requests");
         const newRequest = {
-          id: state.requests.length + 1,
+          id: Math.floor(Math.random() * 1000000),
           firstname: requestData.firstname,
           lastname: requestData.lastname,
           email: requestData.email,

@@ -4,7 +4,7 @@
       <div class="w-full max-w-sm">
         <div class="flex flex-col items-center p-1.5 md:p-6">
           <h5 class="mb-0.5 md:mb-1 text-sm md:text-xl font-medium text-gray-900 dark:text-white truncate w-full text-center">
-            {{ coach.firstName }} {{ coach.lastName }}
+            {{ coach.firstname }} {{ coach.lastname }}
           </h5>
           <span class="text-[10px] md:text-sm text-gray-500 dark:text-gray-400 mb-0.5 md:mb-2">
             ${{ coach.pricePerHour }}/h
@@ -45,8 +45,8 @@
     <!-- Contact Modal -->
     <ContactCoachModal
       :isOpen="isContactModalOpen"
-      :coachFirstName="coach.firstName"
-      :coachLastName="coach.lastName"
+      :coachFirstName="coach.firstname"
+      :coachLastName="coach.lastname"
       @close="closeContactModal"
     />
   </BaseCard>

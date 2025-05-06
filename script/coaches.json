@@ -1,0 +1,44 @@
+{
+  "coaches": [
+    {
+      "id": 1,
+      "firstname": "Olivia",
+      "lastname": "Martinez",
+      "pricePerHour": 55,
+      "skills": ["Frontend", "Full Stack"],
+      "description": "Creative frontend engineer who loves turning ideas into beautiful, functional websites."
+    },
+    {
+      "id": 2,
+      "firstname": "Emily",
+      "lastname": "Clark",
+      "pricePerHour": 50,
+      "skills": ["Full Stack"],
+      "description": "Hi, I'm Emily! I've been teaching fullstack development for startups and tech bootcamps."
+    },
+    {
+      "id": 3,
+      "firstname": "Michael",
+      "lastname": "Smith",
+      "pricePerHour": 40,
+      "skills": ["Backend"],
+      "description": "Backend specialist with a passion for clean code and optimized architectures."
+    },
+    {
+      "id": 4,
+      "firstname": "Sophia",
+      "lastname": "Brown",
+      "pricePerHour": 45,
+      "skills": ["Frontend"],
+      "description": "Frontend developer focused on building pixel-perfect responsive websites."
+    },
+    {
+      "id": 5,
+      "firstname": "Liam",
+      "lastname": "Johnson",
+      "pricePerHour": 30,
+      "skills": ["Backend", "Full Stack"],
+      "description": "Enthusiastic mentor with a background in scalable backend solutions and DevOps."
+    }
+  ]
+}

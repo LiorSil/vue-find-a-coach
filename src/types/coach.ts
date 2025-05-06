@@ -1,7 +1,7 @@
 export interface Coach {
   id: string;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   description: string;
   hourlyRate: number;
   areas: string[];

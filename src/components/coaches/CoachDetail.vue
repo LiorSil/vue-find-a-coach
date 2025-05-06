@@ -30,11 +30,11 @@
         <div class="flex flex-col items-center p-8 ">
           <div class="w-32 h-32 mb-4 rounded-full bg-gray-500 hover:bg-gray-600 flex items-center justify-center">
             <span class="text-4xl text-white">
-              {{ selectedCoach.firstName[0] }}{{ selectedCoach.lastName[0] }}
+              {{ selectedCoach.firstname[0] }}{{ selectedCoach.lastname[0] }}
             </span>
           </div>
           <h2 class="text-3xl font-bold text-white mb-2">
-            {{ selectedCoach.firstName }} {{ selectedCoach.lastName }}
+            {{ selectedCoach.firstname }} {{ selectedCoach.lastname }}
           </h2>
           <span class="text-xl text-gray-300">
             ${{ selectedCoach.pricePerHour }}/hour
@@ -86,8 +86,8 @@
     <ContactCoachModal
       :is-open="isContactModalOpen"
       @close="closeContactModal"
-      :coachFirstName="selectedCoach?.firstName"
-      :coachLastName="selectedCoach?.lastName"
+      :coachFirstName="selectedCoach?.firstname"
+      :coachLastName="selectedCoach?.lastname"
     />
 
     <!-- Toast -->

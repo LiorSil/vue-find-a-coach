@@ -10,8 +10,8 @@ export interface Profession {
 
 export interface Coach {
   id: number;
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   description: string;
   pricePerHour: number;
   skills: Skill[];
@@ -55,8 +55,8 @@ export interface RequestData {
 }
 
 export interface CoachData {
-  firstName: string;
-  lastName: string;
+  firstname: string;
+  lastname: string;
   description: string;
   hourlyRate: number;
   skills: Skill[];

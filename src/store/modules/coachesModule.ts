@@ -150,8 +150,8 @@ const coachesModule: Module<CoachesState, any> = {
 
         const newCoach = {
           id: randomIdNumber,
-          firstName: coachData.firstName,
-          lastName: coachData.lastName,
+          firstname: coachData.firstname,
+          lastname: coachData.lastname,
           description: coachData.description,
           pricePerHour: coachData.hourlyRate,
           skills: coachData.skills,

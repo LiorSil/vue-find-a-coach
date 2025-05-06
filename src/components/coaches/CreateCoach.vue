@@ -14,11 +14,11 @@
         <Loading v-if="isSubmitting" />
         <div v-else>
           <div>
-            <label for="firstName" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
+            <label for="firstname" class="block text-sm font-medium text-gray-300 mb-1">First Name</label>
             <input
               type="text"
-              id="firstName"
-              v-model="formData.firstName"
+              id="firstname"
+              v-model="formData.firstname"
               class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
               :disabled="isSubmitting"
@@ -26,11 +26,11 @@
           </div>
 
           <div>
-            <label for="lastName" class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
+            <label for="lastname" class="block text-sm font-medium text-gray-300 mb-1">Last Name</label>
             <input
               type="text"
-              id="lastName"
-              v-model="formData.lastName"
+              id="lastname"
+              v-model="formData.lastname"
               class="w-full px-3 py-2 bg-gray-700 border border-gray-600 rounded-md text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               required
               :disabled="isSubmitting"
@@ -122,8 +122,8 @@ export default defineComponent({
   data() {
     return {
       formData: {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         description: '',
         hourlyRate: 0,
         skills: [] as Skill[]
@@ -152,8 +152,8 @@ export default defineComponent({
     ...mapActions("Coach", ["registerCoach"]),
     clearForm() {
       this.formData = {
-        firstName: '',
-        lastName: '',
+        firstname: '',
+        lastname: '',
         description: '',
         hourlyRate: 0,
         skills: []
@@ -167,7 +167,7 @@ export default defineComponent({
       try {
         await this.registerCoach({
           ...this.formData,
-          fullName: `${this.formData.firstName} ${this.formData.lastName}`
+          fullName: `${this.formData.firstname} ${this.formData.lastname}`
         });
         this.clearForm();
         this.closeModal();
