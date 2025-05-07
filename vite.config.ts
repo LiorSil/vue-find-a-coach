@@ -13,14 +13,26 @@ export default defineConfig(({ mode }) => {
       vue(),
       tailwindcss(),
       vueDevTools(),
-      createHtmlPlugin({}),
+      createHtmlPlugin({
+        minify: true,
+        inject: {
+          data: {
+            title: "Find a Coach",
+            description: "Find the perfect coach for your needs",
+          },
+        },
+      }),
       viteCompression({
         algorithm: "gzip",
         ext: ".gz",
+        threshold: 10240, // Only compress files larger than 10kb
+        deleteOriginFile: false,
       }),
       viteCompression({
         algorithm: "brotliCompress",
         ext: ".br",
+        threshold: 10240,
+        deleteOriginFile: false,
       }),
     ],
     define: {},
@@ -30,13 +42,20 @@ export default defineConfig(({ mode }) => {
         compress: {
           drop_console: true,
           drop_debugger: true,
+          pure_funcs: ["console.log", "console.info"],
+          passes: 2,
+        },
+        format: {
+          comments: false,
         },
       },
       chunkSizeWarningLimit: 1000,
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ["vue", "vue-router"],
+            vendor: ["vue", "vue-router", "vuex"],
+            firebase: ["firebase/app", "firebase/firestore"],
+            ui: ["@yeger/vue-masonry-wall"],
           },
           chunkFileNames: "assets/[name]-[hash].js",
           entryFileNames: "assets/[name]-[hash].js",
@@ -44,6 +63,13 @@ export default defineConfig(({ mode }) => {
         },
       },
       sourcemap: mode === "development",
+      cssCodeSplit: true,
+      reportCompressedSize: false,
+      target: "es2015",
+    },
+    optimizeDeps: {
+      include: ["vue", "vue-router", "vuex", "@yeger/vue-masonry-wall"],
+      exclude: ["firebase"],
     },
   };
 });

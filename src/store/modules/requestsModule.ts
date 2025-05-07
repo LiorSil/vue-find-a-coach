@@ -73,7 +73,6 @@ const requestsModule: Module<RequestsState, any> = {
       state: RequestsState;
     }) {
       if (state.requests.length > 0) {
-        console.log("Requests already loaded, skipping fetch");
         return;
       }
       commit("SET_LOADING", true);

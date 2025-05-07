@@ -104,15 +104,15 @@ const coachesModule: Module<CoachesState, any> = {
 
         if (!coach) {
           const db = getFirestore(app);
-          const querySnapshot = await getDocs(collection(db, "coaches"));
+          const coachesRef = collection(db, "coaches");
+          const querySnapshot = await getDocs(coachesRef);
           const coaches = querySnapshot.docs.map((doc) => doc.data());
-
+          
           if (coaches.length === 0) {
             throw new Error("No coaches found");
           }
 
           commit("SET_COACHES", coaches);
-
           coach = coaches.find((coach) => String(coach.id) === id) as Coach;
 
           if (!coach) {
@@ -124,7 +124,6 @@ const coachesModule: Module<CoachesState, any> = {
         commit("SET_ERROR", null);
       } catch (error) {
         console.error("Error finding/fetching coach:", error);
-        console.log("error", error);
         commit(
           "SET_ERROR",
           error instanceof Error
@@ -182,13 +181,11 @@ const coachesModule: Module<CoachesState, any> = {
         return [];
       }
 
+      const selectedProfessionsLower = state.selectedProfessions.map(prof => prof.toLowerCase());
+      
       return state.coaches.filter((coach) => {
-        const hasSelectedSkill = coach.skills.some((skill) =>
-          state.selectedProfessions.some(
-            (prof) => prof.toLowerCase() === skill.toLowerCase()
-          )
-        );
-        return hasSelectedSkill;
+        const coachSkillsLower = coach.skills.map(skill => skill.toLowerCase());
+        return coachSkillsLower.some(skill => selectedProfessionsLower.includes(skill));
       });
     },
     isCoachesLoaded: (state: CoachesState) => state.isLoaded,

@@ -46,19 +46,21 @@ export default defineComponent({
     ...mapActions("Request", ["fetchRequests"]),
     toggleTheme() {
       this.isDarkMode = !this.isDarkMode;
+      this.updateTheme();
+    },
+    updateTheme() {
       const theme = this.isDarkMode ? 'dark' : 'light';
       document.documentElement.setAttribute('data-theme', theme);
       document.body.style.backgroundImage = `url(${this.isDarkMode ? this.darkBackground : this.lightBackground})`;
       localStorage.setItem('theme', theme);
-    },
+    }
   },
   mounted() {
     this.fetchRequests();
     const savedTheme = localStorage.getItem('theme');
     if (savedTheme) {
       this.isDarkMode = savedTheme === 'dark';
-      document.documentElement.setAttribute('data-theme', savedTheme);
-      document.body.style.backgroundImage = `url(${this.isDarkMode ? this.darkBackground : this.lightBackground})`;
+      this.updateTheme();
     }
   },
 });
@@ -83,6 +85,7 @@ html {
   --header-bg: #3d008d;
   --link-color: #f391e3;
   --link-hover-border: #f391e3;
+  transition: all 0.3s ease;
 }
 
 [data-theme="dark"] {
@@ -92,6 +95,7 @@ html {
   --header-bg: #2d0066;
   --link-color: #ff9ef0;
   --link-hover-border: #ff9ef0;
+  transition: all 0.3s ease;
 }
 
 header {
