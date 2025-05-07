@@ -93,7 +93,7 @@ const requestsModule: Module<RequestsState, any> = {
     },
 
     async createRequest(
-      { commit, state }: { commit: Commit; state: RequestsState },
+      { commit }: { commit: Commit; state: RequestsState },
       requestData: RequestData
     ) {
       commit("SET_LOADING", true);
