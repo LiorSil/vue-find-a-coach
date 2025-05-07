@@ -35,11 +35,17 @@ async function addDocuments(collectionName, documents) {
 async function resetCollections() {
   try {
     const coachesData = JSON.parse(
-      fs.readFileSync(new URL("./coaches.json", import.meta.url))
+      fs.readFileSync(
+        new URL("./coaches.json", import.meta.url).pathname,
+        "utf8"
+      )
     );
 
     const requestsData = JSON.parse(
-      fs.readFileSync(new URL("./requests.json", import.meta.url))
+      fs.readFileSync(
+        new URL("./requests.json", import.meta.url).pathname,
+        "utf8"
+      )
     );
 
     await deleteCollection("coaches");
