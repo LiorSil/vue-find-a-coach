@@ -2,6 +2,8 @@
 
 A modern web application built with Vue.js that connects coaches with students, facilitating the learning and teaching process.
 
+<iframe src="https://drive.google.com/file/d/1f5zTItfWVX52DNXcpeyvIMwx5M1sbbSL/preview" width="560" height="315" allow="autoplay"></iframe>
+
 ## 🚀 Features
 
 - User authentication and authorization
