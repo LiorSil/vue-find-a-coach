@@ -2,9 +2,8 @@
 
 A modern web application built with Vue.js that connects coaches with students, facilitating the learning and teaching process.
 
-<video width="320" height="240" controls>
-  <source src="[video.mov](https://drive.google.com/file/d/1f5zTItfWVX52DNXcpeyvIMwx5M1sbbSL/view?usp=sharing)" type="video/mp4">
-</video>
+🎥 [Watch find-a-coach demo](./find-a-coach.mp4)
+
 ## 🚀 Features
 
 - User authentication and authorization
